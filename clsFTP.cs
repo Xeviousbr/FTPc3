@@ -32,7 +32,9 @@ Senha: Ab1234>=
                 //string pass = "";
                 int bufferSize = 2048;
 
+                //FtpWebRequest ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host);
                 FtpWebRequest ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + camfTP);
+
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
                 /* When in doubt, use these options */

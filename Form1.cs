@@ -31,6 +31,7 @@ namespace FTPc
 
         private bool Atualiza()
         {
+            //MeuIni.WriteString("Config", "CamLocal", @"C:\TeleTudo\public_html");
             string camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             UltAtualizado(camLocal);
             string ese = ArqEsc.FullName;
@@ -47,9 +48,13 @@ namespace FTPc
             //string pass = MeuIni.ReadString("Config", "pass", "");
             CamfTP = ArqEsc.Name;
 
-            string host = "ftp.dlptest.com";
-            string user = "dlpuser";
-            string pass = "rNrKYTX9g7z3RgJRmxWuGHbeu";
+            //string host = "ftp.dlptest.com";
+            //string user = "dlpuser";
+            //string pass = "rNrKYTX9g7z3RgJRmxWuGHbeu";
+
+            string host = "www.fepam.rs.gov.br";
+            string user = "dmz/fepam";
+            string pass = "j5n8m7f8";
 
             FTP cFPT = new FTP();
             cFPT.Upa(CamfTP, camLocal, host, user, pass);
