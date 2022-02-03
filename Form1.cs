@@ -16,6 +16,9 @@ namespace FTPc
         private INI2 MeuIni;
         private Boolean Conectado = false;
         private long BytesTT = 0;
+        private FTP cFPT;
+        private string camLocal = "";
+        private string PastaBaseFTP = "";
 
         public Tela()
         {
@@ -26,68 +29,32 @@ namespace FTPc
         {
             MeuIni = new INI2();
             UltDt = new DateTime(2001, 1, 1);
+
+            string host = MeuIni.ReadString("Config", "host", "");
+            string user = MeuIni.ReadString("Config", "user", "");
+            string pass = MeuIni.ReadString("Config", "pass", "");
+
+            this.cFPT = new FTP(host, user, pass);
+
+            this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
+            this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
+
             Atualiza();
         }
 
         private bool Atualiza()
         {
-            //MeuIni.WriteString("Config", "CamLocal", @"C:\TeleTudo\public_html");
-            string camLocal = MeuIni.ReadString("Config", "CamLocal", "");
-            UltAtualizado(camLocal);
+            UltAtualizado(this.camLocal);
             string ese = ArqEsc.FullName;
-            String PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            int pos = ArqEsc.DirectoryName.IndexOf(PastaBaseFTP)+ PastaBaseFTP.Length;
+            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP)+ this.PastaBaseFTP.Length;
              string Resto = ArqEsc.FullName.Substring(pos);
-            string CamfTP = PastaBaseFTP + Resto;
+            string CamfTP = this.PastaBaseFTP + Resto;
 
-            //MeuIni.WriteString("Config", "host", "tele-tudo.com");
-            //MeuIni.WriteString("Config", "user", "teletu76");
-            //MeuIni.WriteString("Config", "pass", "ufrsufrs3753");
-            //string host = MeuIni.ReadString("Config", "host", "");
-            //string user = MeuIni.ReadString("Config", "user", "");
-            //string pass = MeuIni.ReadString("Config", "pass", "");
             CamfTP = ArqEsc.Name;
 
-            //string host = "ftp.dlptest.com";
-            //string user = "dlpuser";
-            //string pass = "rNrKYTX9g7z3RgJRmxWuGHbeu";
+            this.cFPT.Upload(@"C:\Temp\teste.txt");
 
-            string host = "www.fepam.rs.gov.br";
-            string user = "dmz/fepam";
-            string pass = "j5n8m7f8";
-
-            FTP cFPT = new FTP();
-            cFPT.Upa(CamfTP, camLocal, host, user, pass);
-             
-            // cFTP.upload(CamfTP, camLocal, host, user, pass);
-
-            // Testar
-            //    String parDir = ArqEsc.DirectoryName.Substring(camLocal).Replace(@"\", @"/"); 
-
-            //    // String camFTP = MeuIni.ReadString("Config", "CamFTP", "");
-            //    String DiretFTP = PastaBase + parDir;
-            //    Label1.Text = ArqEsc.FullName;
             //    Directory.SetCurrentDirectory(ArqEsc.DirectoryName);
-            //    FTP cFPT = new FTP();
-
-            ////FTP URL: ftp.dlptest.com or ftp://ftp.dlptest.com/
-            ////FTP User: dlpuser
-            ////Password: rNrKYTX9g7z3RgJRmxWuGHbeu
-
-            //// https://dlptest.com/ftp-test/
-
-            //    string host = MeuIni.ReadString("Config", "host", "");
-            //    string user = MeuIni.ReadString("Config", "user", "");
-            //    string pass = MeuIni.ReadString("Config", "pass", "");
-
-            //    // Resolver
-            //    string CaminhoArqApartirDaPastaBase = "";
-
-            //    string remoteFile = PastaBase + CaminhoArqApartirDaPastaBase;
-            //    cFPT.upload("remoteFile", "localfile", host, user, pass);
-            //    this.Text = ArqEsc.Name + " " + DateTime.Now.ToShortDateString();
-
-            // testar
             return true;
         }
 
