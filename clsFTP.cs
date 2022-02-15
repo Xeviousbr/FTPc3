@@ -23,15 +23,16 @@ namespace FTPc
         }
 
 
-        public void Upload(string _nomeArquivo)
+        public void Upload(string _nomeArquivo, string Caminho)
         {
-
+            string Cam = Caminho.Replace(@"\", @"/");
             FileInfo _arquivoInfo = new FileInfo(_nomeArquivo);
-            string uri = "ftp://" + this.ftpIPServidor + "/" + _arquivoInfo.Name;
+            string Suri = "ftp://" + this.ftpIPServidor + Cam + _arquivoInfo.Name;
             FtpWebRequest requisicaoFTP;
 
             // Cria um objeto FtpWebRequest a partir da Uri fornecida
-            requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri("ftp://" + this.ftpIPServidor + "/" + _arquivoInfo.Name));
+            requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
+            // requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri("ftp://" + this.ftpIPServidor + "/" + Cam + "/" + _arquivoInfo.Name));
 
             // Fornece as credenciais de WebPermission
             requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);

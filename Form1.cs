@@ -47,14 +47,13 @@ namespace FTPc
             UltAtualizado(this.camLocal);
             string ese = ArqEsc.FullName;
             int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP)+ this.PastaBaseFTP.Length;
-             string Resto = ArqEsc.FullName.Substring(pos);
+            string Resto = ArqEsc.FullName.Substring(pos);
             string CamfTP = this.PastaBaseFTP + Resto;
+            // CamfTP = ArqEsc.Name;
 
-            CamfTP = ArqEsc.Name;
+            CamfTP = @"\public_html\resources\views\layouts\";
 
-            this.cFPT.Upload(@"C:\Temp\teste.txt");
-
-            //    Directory.SetCurrentDirectory(ArqEsc.DirectoryName);
+            this.cFPT.Upload(ese, CamfTP);
             return true;
         }
 
