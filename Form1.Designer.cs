@@ -28,24 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Label1 = new System.Windows.Forms.Label();
             this.ProgressBar1 = new System.Windows.Forms.ProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // Label1
             // 
-            this.Label1.Location = new System.Drawing.Point(2, 0);
+            this.Label1.Location = new System.Drawing.Point(2, 9);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(418, 22);
             this.Label1.TabIndex = 0;
             // 
             // ProgressBar1
             // 
-            this.ProgressBar1.Location = new System.Drawing.Point(12, 25);
+            this.ProgressBar1.Location = new System.Drawing.Point(12, 34);
             this.ProgressBar1.Name = "ProgressBar1";
             this.ProgressBar1.Size = new System.Drawing.Size(402, 23);
             this.ProgressBar1.TabIndex = 1;
             this.ProgressBar1.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 2000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Tela
             // 
@@ -57,6 +64,7 @@
             this.Location = new System.Drawing.Point(12, 9);
             this.Name = "Tela";
             this.Text = "FTPeia";
+            this.Activated += new System.EventHandler(this.Tela_Activated);
             this.Load += new System.EventHandler(this.Tela_Load);
             this.Resize += new System.EventHandler(this.Tela_Resize);
             this.ResumeLayout(false);
@@ -67,6 +75,7 @@
 
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.ProgressBar ProgressBar1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

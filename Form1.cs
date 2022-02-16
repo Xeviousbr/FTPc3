@@ -19,6 +19,7 @@ namespace FTPc
         private FTP cFPT;
         private string camLocal = "";
         private string PastaBaseFTP = "";
+        private int PassoTimer = 0;
 
         public Tela()
         {
@@ -39,23 +40,30 @@ namespace FTPc
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
 
-            Atualiza();
+            this.cFPT.setBarra(ref ProgressBar1);
+
+            //Atualiza();
+            //Label1.Text = ArqEsc.FullName;
         }
 
         private bool Atualiza()
         {
             UltAtualizado(this.camLocal);
+            Console.WriteLine(ArqEsc.FullName);
             string ese = ArqEsc.FullName;
-            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP)+ this.PastaBaseFTP.Length;
+            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
             string Resto = ArqEsc.FullName.Substring(pos);
-            string CamfTP = this.PastaBaseFTP + Resto;
-            // CamfTP = ArqEsc.Name;
-
-            CamfTP = @"\public_html\resources\views\layouts\";
-
+            string NmArq = ArqEsc.Name;
+            int TamNome = NmArq.Length;
+            int TamResto = Resto.Length;
+            string CamfTP = Resto.Substring(0, TamResto - TamNome);            
             this.cFPT.Upload(ese, CamfTP);
+            Console.WriteLine("Upload realizado");
+            timer1.Enabled = true;
             return true;
         }
+
+        #region Obtem Arquivo a atualizar
 
         private void UltAtualizado(String Pasta)
         {
@@ -76,7 +84,7 @@ namespace FTPc
             foreach (DirectoryInfo DirectorioInfo in objDirectoryInfo.GetDirectories())
             {
                 //bolReturn = true;
-                if ((DirectorioInfo.Exists == true) && (DirectorioInfo.Name != "System Volume Information") && (DirectorioInfo.Name != "RECYCLER") )
+                if ((DirectorioInfo.Exists == true) && (DirectorioInfo.Name != "System Volume Information") && (DirectorioInfo.Name != "RECYCLER"))
                 {
                     SearchFiles(DirectorioInfo);
                     SearchDirectories(DirectorioInfo);
@@ -84,7 +92,7 @@ namespace FTPc
             }
         }
 
-        private void SearchFiles (DirectoryInfo info)
+        private void SearchFiles(DirectoryInfo info)
         {
             // É POSSÍVEL MELHORAR A PERFORMANCE, FILTRANDO AS EXTENSÕES JÁ NO CARREGAMENTO DA LISTA DOS ARQUIVOS
             FileInfo[] arquivos = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
@@ -101,6 +109,8 @@ namespace FTPc
                 }
             }
         }
+
+        #endregion
 
         private void Tela_Resize(object sender, EventArgs e)
         {
@@ -130,6 +140,34 @@ namespace FTPc
         //    ProgressBar1.Value = 0
         //    AlterandoTela = False
         //End If
+        }
+
+        private void Tela_Activated(object sender, EventArgs e)
+        {
+            if (this.Ativou==false)
+            {
+                Atualiza();
+                Label1.Text = ArqEsc.FullName;
+                this.Ativou = true;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            PassoTimer++;
+            switch (PassoTimer)
+            {
+                case 1: // Desabilit
+                    ProgressBar1.Value = 0;
+                    Console.WriteLine("Barra desabilitada");
+                    break;
+            default: // Invisivel
+                    PassoTimer = 0;
+                    ProgressBar1.Visible = false;
+                    timer1.Enabled = false;
+                    Console.WriteLine("Barra Invisível");
+                    break;
+            }
         }
     }
 }
