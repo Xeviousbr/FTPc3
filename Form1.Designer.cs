@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tela));
             this.Label1 = new System.Windows.Forms.Label();
             this.ProgressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -61,9 +62,13 @@
             this.ClientSize = new System.Drawing.Size(429, 76);
             this.Controls.Add(this.ProgressBar1);
             this.Controls.Add(this.Label1);
-            this.Location = new System.Drawing.Point(12, 9);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(597, 752);
+            this.MaximizeBox = false;
             this.Name = "Tela";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "FTPeia";
+            this.TopMost = true;
             this.Activated += new System.EventHandler(this.Tela_Activated);
             this.Load += new System.EventHandler(this.Tela_Load);
             this.Resize += new System.EventHandler(this.Tela_Resize);

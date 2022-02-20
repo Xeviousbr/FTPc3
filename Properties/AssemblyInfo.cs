@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associada a um assembly.
 [assembly: AssemblyTitle("FTPc")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Atualiza o arquivo mais novo de uma pasta no FTP em um click")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("ATC Informática Ltda")]
 [assembly: AssemblyProduct("FTPc")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]

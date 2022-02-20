@@ -28,27 +28,27 @@ namespace FTPc
 
         private void Tela_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void Inicializa()
+        {
             MeuIni = new INI2();
             UltDt = new DateTime(2001, 1, 1);
-
             string host = MeuIni.ReadString("Config", "host", "");
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
-
             this.cFPT = new FTP(host, user, pass);
-
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
-
             this.cFPT.setBarra(ref ProgressBar1);
-
-            //Atualiza();
-            //Label1.Text = ArqEsc.FullName;
         }
 
         private bool Atualiza()
         {
             UltAtualizado(this.camLocal);
+            this.Text = "Ftpeia : " + ArqEsc.Name;
+            Label1.Text = ArqEsc.FullName;
             Console.WriteLine(ArqEsc.FullName);
             string ese = ArqEsc.FullName;
             int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
@@ -56,7 +56,7 @@ namespace FTPc
             string NmArq = ArqEsc.Name;
             int TamNome = NmArq.Length;
             int TamResto = Resto.Length;
-            string CamfTP = Resto.Substring(0, TamResto - TamNome);            
+            string CamfTP = Resto.Substring(0, TamResto - TamNome);
             this.cFPT.Upload(ese, CamfTP);
             Console.WriteLine("Upload realizado");
             timer1.Enabled = true;
@@ -114,40 +114,27 @@ namespace FTPc
 
         private void Tela_Resize(object sender, EventArgs e)
         {
-            if (!AlterandoTela)
+            if (this.WindowState == FormWindowState.Normal)
             {
-                AlterandoTela = false;
-                //if (!Conectado)
-                //{
-                //    Conectar();
-                //}
-                if (Atualiza())
-                {
-                    this.WindowState = FormWindowState.Minimized;
-                    ProgressBar1.Value = 0;
-                    AlterandoTela = false;
-                }
-
+                Label1.Text = "Procurando arquivo a atualizar";
+                Label1.Refresh();
+                Atualiza();
             }
-        //    If AlterandoTela = False Then
-        //        AlterandoTela = True
-        //    If Conectado = False Then
-        //        Conectar()
-        //    End If
-        //    If(Atualiza() = True) Then
-        //        Me.WindowState = FormWindowState.Minimized
-        //    End If
-        //    ProgressBar1.Value = 0
-        //    AlterandoTela = False
-        //End If
+                
+            /* if (!AlterandoTela)
+                {
+                    AlterandoTela = false;                    
+                } */
         }
 
         private void Tela_Activated(object sender, EventArgs e)
         {
             if (this.Ativou==false)
             {
+                Inicializa();
                 Atualiza();
-                Label1.Text = ArqEsc.FullName;
+                if (ArqEsc != null)
+                    Label1.Text = ArqEsc.FullName;
                 this.Ativou = true;
             }
         }
@@ -161,11 +148,14 @@ namespace FTPc
                     ProgressBar1.Value = 0;
                     Console.WriteLine("Barra desabilitada");
                     break;
-            default: // Invisivel
-                    PassoTimer = 0;
-                    ProgressBar1.Visible = false;
-                    timer1.Enabled = false;
+                case 2: // Invisivel
+                    ProgressBar1.Visible = false;                    
                     Console.WriteLine("Barra Invisível");
+                    break;
+                default:
+                    timer1.Enabled = false;
+                    this.WindowState = FormWindowState.Minimized;
+                    PassoTimer = 0;
                     break;
             }
         }
