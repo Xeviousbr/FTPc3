@@ -16,6 +16,7 @@ namespace FTPc
         string ftpSenha = "";
         private ProgressBar ProgressBar1= null;
         private int Tot = 0;
+        private string Erro = "";
 
         private int _tamanhoConteudo = 0;
 
@@ -40,7 +41,7 @@ namespace FTPc
             this.ftpSenha = ftpSenha;
         }
 
-        public void Upload(string _nomeArquivo, string Caminho)
+        public bool Upload(string _nomeArquivo, string Caminho)
         {
             this.Tot = 0;
             string Cam = Caminho.Replace(@"\", @"/");
@@ -96,11 +97,19 @@ namespace FTPc
                 // Fecha o stream a requisição
                 strm.Close();
                 fs.Close();
+                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erro de Upload");
+                this.Erro = ex.Message;
+                // MessageBox.Show(ex.Message, "Erro de Upload");
+                return false;
             }
+        }
+
+        public string getErro()
+        {
+            return this.Erro;
         }
 
         public void setBarra(ref ProgressBar ProgressBar1)

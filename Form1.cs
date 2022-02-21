@@ -57,10 +57,20 @@ namespace FTPc
             int TamNome = NmArq.Length;
             int TamResto = Resto.Length;
             string CamfTP = Resto.Substring(0, TamResto - TamNome);
-            this.cFPT.Upload(ese, CamfTP);
-            Console.WriteLine("Upload realizado");
-            timer1.Enabled = true;
-            return true;
+            if (this.cFPT.Upload(ese, CamfTP))
+            {
+                timer1.Enabled = true;
+                Console.WriteLine("Upload realizado");
+                return true;
+            } else
+            {
+                string Erro = this.cFPT.getErro();
+                Console.WriteLine("Erro: "+ Erro);
+                ProgressBar1.Visible = false;                
+                lbErro.Text = Erro;
+                lbErro.Visible = true;
+                return false;
+            }
         }
 
         #region Obtem Arquivo a atualizar
