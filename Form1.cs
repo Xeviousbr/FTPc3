@@ -36,6 +36,17 @@ namespace FTPc
             MeuIni = new INI2();
             UltDt = new DateTime(2001, 1, 1);
             string host = MeuIni.ReadString("Config", "host", "");
+            if (host.Length == 0)
+            {
+                Config FConfig = new Config();
+                FConfig.ShowDialog();
+                host = MeuIni.ReadString("Config", "host", "");
+                if (host.Length == 0)
+                {
+                    MessageBox.Show("Não foi configurado", "O programa será fechado");
+                    Environment.Exit(0);
+                }
+            }
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
             this.cFPT = new FTP(host, user, pass);
