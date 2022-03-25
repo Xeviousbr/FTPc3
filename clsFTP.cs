@@ -107,6 +107,37 @@ namespace FTPc
             }
         }
 
+        public bool Testa()
+        {
+            string Suri = "ftp://" + this.ftpIPServidor + @"/Teste.tst";
+            FtpWebRequest requisicaoFTP;
+            requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
+            requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+            requisicaoFTP.KeepAlive = false;
+            requisicaoFTP.Method = WebRequestMethods.Ftp.UploadFile;
+            requisicaoFTP.UseBinary = true;
+            requisicaoFTP.ContentLength = 9;
+            int buffLength = 2048;
+            byte[] buff = Encoding.ASCII.GetBytes("123456789");
+            try
+            {
+                Stream strm = requisicaoFTP.GetRequestStream();
+                int tamConteudo = 9; 
+                strm.Write(buff, 0, tamConteudo);
+                strm.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        private static char[] GetBuff(string teste)
+        {
+            return teste.ToCharArray();
+        }
+
         public string getErro()
         {
             return this.Erro;

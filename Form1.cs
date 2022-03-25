@@ -133,6 +133,8 @@ namespace FTPc
 
         #endregion
 
+        #region Operações do Usuário
+
         private void Tela_Resize(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal)
@@ -141,7 +143,7 @@ namespace FTPc
                 Label1.Refresh();
                 Atualiza();
             }
-                
+
             /* if (!AlterandoTela)
                 {
                     AlterandoTela = false;                    
@@ -150,7 +152,7 @@ namespace FTPc
 
         private void Tela_Activated(object sender, EventArgs e)
         {
-            if (this.Ativou==false)
+            if (this.Ativou == false)
             {
                 Inicializa();
                 Atualiza();
@@ -170,7 +172,7 @@ namespace FTPc
                     Console.WriteLine("Barra desabilitada");
                     break;
                 case 2: // Invisivel
-                    ProgressBar1.Visible = false;                    
+                    ProgressBar1.Visible = false;
                     Console.WriteLine("Barra Invisível");
                     break;
                 default:
@@ -180,5 +182,8 @@ namespace FTPc
                     break;
             }
         }
+
+
+        #endregion
     }
 }

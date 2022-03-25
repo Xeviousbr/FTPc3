@@ -40,6 +40,7 @@ namespace FTPc
             this.txUser = new System.Windows.Forms.TextBox();
             this.txHost = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.btTeste = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -129,7 +130,7 @@ namespace FTPc
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(161, 151);
+            this.button1.Location = new System.Drawing.Point(214, 151);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 10;
@@ -137,11 +138,22 @@ namespace FTPc
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btTeste
+            // 
+            this.btTeste.Location = new System.Drawing.Point(112, 151);
+            this.btTeste.Name = "btTeste";
+            this.btTeste.Size = new System.Drawing.Size(75, 23);
+            this.btTeste.TabIndex = 11;
+            this.btTeste.Text = "Testar";
+            this.btTeste.UseVisualStyleBackColor = true;
+            this.btTeste.Click += new System.EventHandler(this.btTeste_Click);
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 183);
+            this.ClientSize = new System.Drawing.Size(397, 181);
+            this.Controls.Add(this.btTeste);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txHost);
             this.Controls.Add(this.txUser);
@@ -177,5 +189,6 @@ namespace FTPc
         private System.Windows.Forms.TextBox txUser;
         private System.Windows.Forms.TextBox txHost;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btTeste;
     }
 }
