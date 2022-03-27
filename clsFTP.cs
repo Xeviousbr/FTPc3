@@ -109,23 +109,32 @@ namespace FTPc
 
         public bool Testa()
         {
+            string StringTeste = "Teste do FtpTeitor";
             string Suri = "ftp://" + this.ftpIPServidor + @"/Teste.tst";
             FtpWebRequest requisicaoFTP;
             requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
-            requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+            requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);            
             requisicaoFTP.KeepAlive = false;
             requisicaoFTP.Method = WebRequestMethods.Ftp.UploadFile;
             requisicaoFTP.UseBinary = true;
             requisicaoFTP.ContentLength = 9;
             int buffLength = 2048;
-            byte[] buff = Encoding.ASCII.GetBytes("123456789");
+            byte[] buff = Encoding.ASCII.GetBytes(StringTeste);
             try
             {
                 Stream strm = requisicaoFTP.GetRequestStream();
-                int tamConteudo = 9; 
-                strm.Write(buff, 0, tamConteudo);
+                strm.Write(buff, 0, StringTeste.Length);
                 strm.Close();
-                return true;
+                FtpWebRequest requestD = (FtpWebRequest)WebRequest.Create(Suri);
+                requestD.Method = WebRequestMethods.Ftp.DownloadFile;
+                requestD.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+                FtpWebResponse responseD = (FtpWebResponse)requestD.GetResponse();
+                Stream responseStream = responseD.GetResponseStream();
+                StreamReader readerD = new StreamReader(responseStream);
+                string resposta = readerD.ReadToEnd();
+                readerD.Close();
+                responseD.Close();
+                return resposta == StringTeste;
             }
             catch (Exception ex)
             {
@@ -133,10 +142,10 @@ namespace FTPc
             }
         }
 
-        private static char[] GetBuff(string teste)
-        {
-            return teste.ToCharArray();
-        }
+        //private static char[] GetBuff(string teste)
+        //{
+        //    return teste.ToCharArray();
+        //}
 
         public string getErro()
         {

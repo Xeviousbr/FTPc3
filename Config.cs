@@ -23,16 +23,13 @@ namespace FTPc
 
         private void btTeste_Click(object sender, EventArgs e)
         {
-            btTeste.Enabled = false;
-
-            
+            btTeste.Enabled = false;            
             FTP cFPT;
             cFPT = new FTP(txHost.Text, txUser.Text, txSenha.Text);
-            if (cFPT.Testa()==false)
-            {
+            if (cFPT.Testa())
+                MessageBox.Show("Teste realizado com sucesso", "Credenciais válidas");
+            else
                 MessageBox.Show("Impossível conectar", "Erro na configuração");
-            }
-
             btTeste.Enabled = true;
         }
     }

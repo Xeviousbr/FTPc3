@@ -99,6 +99,7 @@ namespace FTPc
             this.txLocal.Name = "txLocal";
             this.txLocal.Size = new System.Drawing.Size(273, 20);
             this.txLocal.TabIndex = 5;
+            this.txLocal.Text = "C:\\TeleTudo\\public_html";
             // 
             // txCamFTP
             // 
@@ -106,6 +107,7 @@ namespace FTPc
             this.txCamFTP.Name = "txCamFTP";
             this.txCamFTP.Size = new System.Drawing.Size(273, 20);
             this.txCamFTP.TabIndex = 6;
+            this.txCamFTP.Text = "/public_html";
             // 
             // txSenha
             // 
@@ -113,6 +115,7 @@ namespace FTPc
             this.txSenha.Name = "txSenha";
             this.txSenha.Size = new System.Drawing.Size(273, 20);
             this.txSenha.TabIndex = 7;
+            this.txSenha.Text = "ftpftp";
             // 
             // txUser
             // 
@@ -120,6 +123,7 @@ namespace FTPc
             this.txUser.Name = "txUser";
             this.txUser.Size = new System.Drawing.Size(273, 20);
             this.txUser.TabIndex = 8;
+            this.txUser.Text = "admin_ftp";
             // 
             // txHost
             // 
@@ -127,6 +131,7 @@ namespace FTPc
             this.txHost.Name = "txHost";
             this.txHost.Size = new System.Drawing.Size(273, 20);
             this.txHost.TabIndex = 9;
+            this.txHost.Text = "tele-tudo.com";
             // 
             // button1
             // 
