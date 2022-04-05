@@ -118,35 +118,40 @@ namespace FTPc
             requisicaoFTP.Method = WebRequestMethods.Ftp.UploadFile;
             requisicaoFTP.UseBinary = true;
             requisicaoFTP.ContentLength = 9;
-            int buffLength = 2048;
+            //int buffLength = 2048;
             byte[] buff = Encoding.ASCII.GetBytes(StringTeste);
+            bool ret = false;
             try
             {
                 Stream strm = requisicaoFTP.GetRequestStream();
-                strm.Write(buff, 0, StringTeste.Length);
-                strm.Close();
-                FtpWebRequest requestD = (FtpWebRequest)WebRequest.Create(Suri);
-                requestD.Method = WebRequestMethods.Ftp.DownloadFile;
-                requestD.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
-                FtpWebResponse responseD = (FtpWebResponse)requestD.GetResponse();
-                Stream responseStream = responseD.GetResponseStream();
+                strm.Write(buff, 0, StringTeste.Length);                
+                FtpWebRequest redDown = (FtpWebRequest)WebRequest.Create(Suri);
+                redDown.Method = WebRequestMethods.Ftp.DownloadFile;
+                redDown.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+                FtpWebResponse respDown = (FtpWebResponse)redDown.GetResponse();
+                Stream responseStream = respDown.GetResponseStream();
                 StreamReader readerD = new StreamReader(responseStream);
                 string resposta = readerD.ReadToEnd();
+                strm.Close();
                 readerD.Close();
-                responseD.Close();
-                return resposta == StringTeste;
+                respDown.Close();
+                ret = true;
             }
             catch (Exception ex)
             {
-                return false;
+                ret= false;
             }
+            if (ret)
+            {
+                // Deleção do arquivo de testes, se der erro na deleção ainda assim a conexão é valida, porque será utilizado para upload
+                FtpWebRequest redDel = (FtpWebRequest)WebRequest.Create(Suri);
+                redDel.Method = WebRequestMethods.Ftp.DeleteFile;
+                redDel.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+                FtpWebResponse response = (FtpWebResponse)redDel.GetResponse();
+                response.Close();
+            }
+            return ret;
         }
-
-        //private static char[] GetBuff(string teste)
-        //{
-        //    return teste.ToCharArray();
-        //}
-
         public string getErro()
         {
             return this.Erro;
