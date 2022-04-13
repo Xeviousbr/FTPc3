@@ -8,81 +8,52 @@ namespace FTPc
 {
     public partial class Tela : Form
     {
-
-        private Boolean AlterandoTela = true;
-        private Boolean Ativou = false;
-        private FileInfo ArqEsc;
-        private DateTime UltDt;
-        private INI2 MeuIni;
-        private Boolean Conectado = false;
-        private long BytesTT = 0;
-        private FTP cFPT;
+        private int PassoTimer = 0;
+        private int Transferencias = 0;
         private string camLocal = "";
         private string PastaBaseFTP = "";
-        private int PassoTimer = 0;
+        private string host = "";
+        private DateTime UltDt;
+        private FileInfo ArqEsc;
+        private INI2 MeuIni;
+        private FTP cFPT;                
 
         public Tela()
         {
             InitializeComponent();
         }
 
-        private void Tela_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void Inicializa()
         {
-            MeuIni = new INI2();
-            UltDt = new DateTime(2001, 1, 1);
-            string host = MeuIni.ReadString("Config", "host", "");
-            if (host.Length == 0)
-            {
-                Config FConfig = new Config();
-                FConfig.ShowDialog();
-                host = MeuIni.ReadString("Config", "host", "");
-                if (host.Length == 0)
-                {
-                    MessageBox.Show("Não foi configurado", "O programa será fechado");
-                    Environment.Exit(0);
-                }
-            }
+            this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PassoTimer = 0;
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
-            this.cFPT = new FTP(host, user, pass);
+            this.cFPT = new FTP(this.host, user, pass);
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
             this.cFPT.setBarra(ref ProgressBar1);
         }
 
-        private bool Atualiza()
+        private void Tela_Load(object sender, EventArgs e)
         {
-            UltAtualizado(this.camLocal);
-            this.Text = "Ftpeia : " + ArqEsc.Name;
-            Label1.Text = ArqEsc.FullName;
-            Console.WriteLine(ArqEsc.FullName);
-            string ese = ArqEsc.FullName;
-            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
-            string Resto = ArqEsc.FullName.Substring(pos);
-            string NmArq = ArqEsc.Name;
-            int TamNome = NmArq.Length;
-            int TamResto = Resto.Length;
-            string CamfTP = Resto.Substring(0, TamResto - TamNome);
-            if (this.cFPT.Upload(ese, CamfTP))
+            MeuIni = new INI2();
+            UltDt = new DateTime(2001, 1, 1);
+            this.host = MeuIni.ReadString("Config", "host", "");
+            if (this.host.Length == 0)
             {
-                timer1.Enabled = true;
-                Console.WriteLine("Upload realizado");
-                return true;
-            } else
-            {
-                string Erro = this.cFPT.getErro();
-                Console.WriteLine("Erro: "+ Erro);
-                ProgressBar1.Visible = false;                
-                lbErro.Text = Erro;
-                lbErro.Visible = true;
-                return false;
+                Config FConfig = new Config();
+                FConfig.ShowDialog();
+                this.host = MeuIni.ReadString("Config", "host", "");
+                if (this.host.Length == 0)
+                {
+                    MessageBox.Show("Não foi configurado", "O programa será fechado");
+                    Environment.Exit(0);
+                }
             }
-        }
+            else
+                timer1.Enabled = true;
+        } 
 
         #region Obtem Arquivo a atualizar
 
@@ -134,8 +105,104 @@ namespace FTPc
         #endregion
 
         #region Operações do Usuário
+        private bool Atualiza()
+        {
+            UltAtualizado(this.camLocal);
+            this.Text = "Ftpeia : " + ArqEsc.Name;
+            Label1.Text = ArqEsc.FullName;
+            Console.WriteLine(ArqEsc.FullName);
+            string ese = ArqEsc.FullName;
+            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
+            string Resto = ArqEsc.FullName.Substring(pos);
+            string NmArq = ArqEsc.Name;
+            int TamNome = NmArq.Length;
+            int TamResto = Resto.Length;
+            string CamfTP = Resto.Substring(0, TamResto - TamNome);
+            if (this.cFPT.Upload(ese, CamfTP))
+            {
+                this.Transferencias++;
+                timer1.Enabled = true;
+                Console.WriteLine("Upload realizado");
+                return true;
+            }
+            else
+            {
+                string Erro = this.cFPT.getErro();
+                Console.WriteLine("Erro: " + Erro);
+                ProgressBar1.Visible = false;
+                lbErro.Text = Erro;
+                lbErro.Visible = true;
+                return false;
+            }
+        }
 
-        private void Tela_Resize(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (this.Transferencias==0)
+            {
+                this.PassoTimer++;
+                int Tmp = 6 - this.PassoTimer;
+                if (Tmp==0)
+                {
+                    this.Transferencias = 1;
+                    Label1.Text = "";
+                    this.ClicouInicio();                    
+                } else
+                {
+                    Label1.Text = Tmp.ToString();
+                }
+            } else
+            {
+                this.PassoTimer++;
+                switch (PassoTimer)
+                {
+                    case 1: // Desabilit
+                        ProgressBar1.Value = 0;
+                        Console.WriteLine("Barra desabilitada");
+                        break;
+                    case 2: // Invisivel
+                        ProgressBar1.Visible = false;
+                        Console.WriteLine("Barra Invisível");
+                        break;
+                    default:
+                        timer1.Enabled = false;
+                        this.WindowState = FormWindowState.Minimized;
+                        this.PassoTimer = 0;
+                        break;
+                }
+            }
+        }
+
+        private void ClicouInicio()
+        {
+            btInicio.Visible = false;
+            btConfig.Visible = false;
+            this.Refresh();
+            Inicializa();
+            Atualiza();
+            if (ArqEsc != null)
+                Label1.Text = ArqEsc.FullName;
+        }
+
+        private void btInicio_Click(object sender, EventArgs e)
+        {
+            this.ClicouInicio();
+        }
+
+        private void btConfig_Click(object sender, EventArgs e)
+        {
+            this.Label1.Text = "";
+            this.timer1.Enabled = false;
+            Config FConfig = new Config();
+            FConfig.ShowDialog();
+            this.host = MeuIni.ReadString("Config", "host", "");
+            if (this.host.Length == 0)
+            {
+                MessageBox.Show("Não foi configurado", "O programa será fechado");
+            }
+        }
+
+        private void Tela_Resize_1(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal)
             {
@@ -143,47 +210,8 @@ namespace FTPc
                 Label1.Refresh();
                 Atualiza();
             }
-
-            /* if (!AlterandoTela)
-                {
-                    AlterandoTela = false;                    
-                } */
         }
-
-        private void Tela_Activated(object sender, EventArgs e)
-        {
-            if (this.Ativou == false)
-            {
-                Inicializa();
-                Atualiza();
-                if (ArqEsc != null)
-                    Label1.Text = ArqEsc.FullName;
-                this.Ativou = true;
-            }
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            PassoTimer++;
-            switch (PassoTimer)
-            {
-                case 1: // Desabilit
-                    ProgressBar1.Value = 0;
-                    Console.WriteLine("Barra desabilitada");
-                    break;
-                case 2: // Invisivel
-                    ProgressBar1.Visible = false;
-                    Console.WriteLine("Barra Invisível");
-                    break;
-                default:
-                    timer1.Enabled = false;
-                    this.WindowState = FormWindowState.Minimized;
-                    PassoTimer = 0;
-                    break;
-            }
-        }
-
-
-        #endregion
+        #endregion        
+        
     }
 }

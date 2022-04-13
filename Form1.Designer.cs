@@ -34,6 +34,8 @@
             this.ProgressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lbErro = new System.Windows.Forms.Label();
+            this.btInicio = new System.Windows.Forms.Button();
+            this.btConfig = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Label1
@@ -42,6 +44,7 @@
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(418, 22);
             this.Label1.TabIndex = 0;
+            this.Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // ProgressBar1
             // 
@@ -65,11 +68,33 @@
             this.lbErro.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbErro.Visible = false;
             // 
+            // btInicio
+            // 
+            this.btInicio.Location = new System.Drawing.Point(92, 26);
+            this.btInicio.Name = "btInicio";
+            this.btInicio.Size = new System.Drawing.Size(112, 23);
+            this.btInicio.TabIndex = 3;
+            this.btInicio.Text = "Iniciar";
+            this.btInicio.UseVisualStyleBackColor = true;
+            this.btInicio.Click += new System.EventHandler(this.btInicio_Click);
+            // 
+            // btConfig
+            // 
+            this.btConfig.Location = new System.Drawing.Point(224, 26);
+            this.btConfig.Name = "btConfig";
+            this.btConfig.Size = new System.Drawing.Size(112, 23);
+            this.btConfig.TabIndex = 4;
+            this.btConfig.Text = "Configurar";
+            this.btConfig.UseVisualStyleBackColor = true;
+            this.btConfig.Click += new System.EventHandler(this.btConfig_Click);
+            // 
             // Tela
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 76);
+            this.Controls.Add(this.btConfig);
+            this.Controls.Add(this.btInicio);
             this.Controls.Add(this.lbErro);
             this.Controls.Add(this.ProgressBar1);
             this.Controls.Add(this.Label1);
@@ -80,9 +105,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "FTPeia";
             this.TopMost = true;
-            this.Activated += new System.EventHandler(this.Tela_Activated);
             this.Load += new System.EventHandler(this.Tela_Load);
-            this.Resize += new System.EventHandler(this.Tela_Resize);
+            this.Resize += new System.EventHandler(this.Tela_Resize_1);
             this.ResumeLayout(false);
 
         }
@@ -93,6 +117,8 @@
         private System.Windows.Forms.ProgressBar ProgressBar1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label lbErro;
+        private System.Windows.Forms.Button btInicio;
+        private System.Windows.Forms.Button btConfig;
     }
 }
 

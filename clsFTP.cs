@@ -11,14 +11,13 @@ namespace FTPc
 {
     public class FTP
     {
+        private int _tamanhoConteudo = 0;
+        private int Tot = 0;
         string ftpIPServidor = "";
         string ftpUsuarioID = "";
         string ftpSenha = "";
-        private ProgressBar ProgressBar1= null;
-        private int Tot = 0;
         private string Erro = "";
-
-        private int _tamanhoConteudo = 0;
+        private ProgressBar ProgressBar1= null;
 
         public int tamanhoConteudo
         {
