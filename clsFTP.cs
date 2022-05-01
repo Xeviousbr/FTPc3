@@ -30,6 +30,7 @@ namespace FTPc
                 _tamanhoConteudo = value;
                 Tot += value;
                 this.ProgressBar1.Value = Tot;
+                Console.WriteLine("ProgressBar1.Value = " + Tot.ToString());                
             }
         }
 
@@ -67,7 +68,10 @@ namespace FTPc
             requisicaoFTP.ContentLength = _arquivoInfo.Length;
 
             this.ProgressBar1.Visible = true;
+            Console.WriteLine("ProgressBar1.Visible = true");
             this.ProgressBar1.Maximum = (int)_arquivoInfo.Length;
+            Console.WriteLine("ProgressBar1.Maximum = "+ this.ProgressBar1.Maximum.ToString());
+            this.ProgressBar1.Enabled = true;
 
             // Define o tamanho do buffer para 2kb
             int buffLength = 2048;
@@ -159,6 +163,7 @@ namespace FTPc
         public void setBarra(ref ProgressBar ProgressBar1)
         {
             this.ProgressBar1 = ProgressBar1;
+            Console.WriteLine("this.ProgressBar1 = ProgressBar1");
         }
 
     }

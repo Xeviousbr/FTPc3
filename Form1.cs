@@ -32,6 +32,7 @@ namespace FTPc
             this.cFPT = new FTP(this.host, user, pass);
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
+            Console.WriteLine("cFPT.setBarra(ref ProgressBar1)");
             this.cFPT.setBarra(ref ProgressBar1);
         }
 
@@ -120,15 +121,23 @@ namespace FTPc
             string CamfTP = Resto.Substring(0, TamResto - TamNome);
             if (this.cFPT.Upload(ese, CamfTP))
             {
+
+                // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
+                if (this.Transferencias==0)
+                    pictureBox1.Visible = true;
+
                 this.Transferencias++;
                 timer1.Enabled = true;
                 Console.WriteLine("Upload realizado");
+                ProgressBar1.Value = ProgressBar1.Maximum;
+                ProgressBar1.Refresh();                
                 return true;
             }
             else
             {
                 string Erro = this.cFPT.getErro();
                 Console.WriteLine("Erro: " + Erro);
+                Console.WriteLine("ProgressBar1.Visible = false");
                 ProgressBar1.Visible = false;
                 lbErro.Text = Erro;
                 lbErro.Visible = true;
@@ -158,13 +167,18 @@ namespace FTPc
                 {
                     case 1: // Desabilit
                         ProgressBar1.Value = 0;
-                        Console.WriteLine("Barra desabilitada");
+                        Console.WriteLine("Barra desabilitada");                        
                         break;
                     case 2: // Invisivel
                         ProgressBar1.Visible = false;
+
+                        // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
+                        pictureBox1.Visible = false;
+
                         Console.WriteLine("Barra Invisível");
                         break;
                     default:
+                        Console.WriteLine("PassoTimer = 0");
                         timer1.Enabled = false;
                         this.WindowState = FormWindowState.Minimized;
                         this.PassoTimer = 0;
@@ -206,6 +220,9 @@ namespace FTPc
         {
             if (this.WindowState == FormWindowState.Normal)
             {
+                // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
+                pictureBox1.Visible = false;
+
                 Label1.Text = "Procurando arquivo a atualizar";
                 Label1.Refresh();
                 Atualiza();
