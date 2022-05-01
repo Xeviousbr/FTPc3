@@ -47,6 +47,9 @@ namespace FTPc
             string Cam = Caminho.Replace(@"\", @"/");
             FileInfo _arquivoInfo = new FileInfo(_nomeArquivo);
             string Suri = "ftp://" + this.ftpIPServidor + Cam + _arquivoInfo.Name;
+
+            Suri = "ftp://tele-tudo.com/public_html/app/Http/resources/views/teste/robots.php";
+
             FtpWebRequest requisicaoFTP;
 
             // Cria um objeto FtpWebRequest a partir da Uri fornecida
@@ -105,7 +108,13 @@ namespace FTPc
             catch (Exception ex)
             {
                 this.Erro = ex.Message;
-                // MessageBox.Show(ex.Message, "Erro de Upload");
+                if (Erro.IndexOf("553")>0)
+                {
+                    MessageBox.Show(ex.Message, "É necessário criar o diretório antes");
+                } else
+                {
+                    MessageBox.Show(ex.Message, "Erro não tratado");
+                }
                 return false;
             }
         }
