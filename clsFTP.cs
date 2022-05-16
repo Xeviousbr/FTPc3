@@ -47,9 +47,6 @@ namespace FTPc
             string Cam = Caminho.Replace(@"\", @"/");
             FileInfo _arquivoInfo = new FileInfo(_nomeArquivo);
             string Suri = "ftp://" + this.ftpIPServidor + Cam + _arquivoInfo.Name;
-
-            Suri = "ftp://tele-tudo.com/public_html/app/Http/resources/views/teste/robots.php";
-
             FtpWebRequest requisicaoFTP;
 
             // Cria um objeto FtpWebRequest a partir da Uri fornecida
@@ -76,18 +73,61 @@ namespace FTPc
             Console.WriteLine("ProgressBar1.Maximum = "+ this.ProgressBar1.Maximum.ToString());
             this.ProgressBar1.Enabled = true;
 
-            // Define o tamanho do buffer para 2kb
-            int buffLength = 2048;
-            byte[] buff = new byte[buffLength];
-            // int _tamanhoConteudo;
-
             // Abre um stream (System.IO.FileStream) para o arquivo a ser enviado
             FileStream fs = _arquivoInfo.OpenRead();
 
+            bool sair = false;
+            bool bReturn = false;
+            while (sair==false) {
+                string ret = this.UploadEmSi(requisicaoFTP, fs);
+                if (ret=="")
+                {
+                    bReturn = true;
+                    sair = true;
+                } else
+                {
+                    if (ret.IndexOf("553") > 0)
+                    {
+                        string sUrlD = "ftp://" + this.ftpIPServidor + Cam;
+                        FtpWebRequest requestCD = (FtpWebRequest)FtpWebRequest.Create(new Uri(sUrlD));
+                        requestCD.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
+                        requestCD.KeepAlive = false;
+                        requestCD.Method = WebRequestMethods.Ftp.MakeDirectory;
+                        requestCD.Credentials = new NetworkCredential("user", "pass");
+                        try
+                        {
+                            using (var resp = (FtpWebResponse)requestCD.GetResponse())
+                            {
+                                Console.WriteLine(resp.StatusCode);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Não foi possivel enviar arquivo", "É necessário criar o diretório");
+                            bReturn = false;
+                            sair = true;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(ret, "Erro não tratado");
+                        bReturn = false;
+                        sair = true;
+                    }
+                } 
+            }
+            return bReturn;
+        }
+
+        private string UploadEmSi(FtpWebRequest requisicaoFTP, FileStream fs)
+        {
             try
             {
                 // Stream  para o qual o arquivo a ser enviado será escrito
                 Stream strm = requisicaoFTP.GetRequestStream();
+
+                int buffLength = 2048;
+                byte[] buff = new byte[buffLength];
 
                 // Lê a partir do arquivo stream, 2k por vez
                 this.tamanhoConteudo = fs.Read(buff, 0, buffLength);
@@ -103,19 +143,11 @@ namespace FTPc
                 // Fecha o stream a requisição
                 strm.Close();
                 fs.Close();
-                return true;
+                return "";
             }
             catch (Exception ex)
             {
-                this.Erro = ex.Message;
-                if (Erro.IndexOf("553")>0)
-                {
-                    MessageBox.Show(ex.Message, "É necessário criar o diretório antes");
-                } else
-                {
-                    MessageBox.Show(ex.Message, "Erro não tratado");
-                }
-                return false;
+                return ex.Message;
             }
         }
 

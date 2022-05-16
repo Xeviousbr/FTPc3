@@ -73,10 +73,8 @@ namespace FTPc
 
         private void SearchDirectories(DirectoryInfo objDirectoryInfo)
         {
-            //Boolean bolReturn = false;
             foreach (DirectoryInfo DirectorioInfo in objDirectoryInfo.GetDirectories())
             {
-                //bolReturn = true;
                 if ((DirectorioInfo.Exists == true) && (DirectorioInfo.Name != "System Volume Information") && (DirectorioInfo.Name != "RECYCLER"))
                 {
                     SearchFiles(DirectorioInfo);
@@ -141,6 +139,7 @@ namespace FTPc
                 ProgressBar1.Visible = false;
                 lbErro.Text = Erro;
                 lbErro.Visible = true;
+                timer1.Enabled = false;
                 return false;
             }
         }
