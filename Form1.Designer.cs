@@ -119,6 +119,7 @@
             this.Text = "FTPeia";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.Tela_Load);
+            this.Shown += new System.EventHandler(this.Tela_Shown);
             this.Resize += new System.EventHandler(this.Tela_Resize_1);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

@@ -16,7 +16,9 @@ namespace FTPc
         private DateTime UltDt;
         private FileInfo ArqEsc;
         private INI2 MeuIni;
-        private FTP cFPT;                
+        private FTP cFPT;
+
+        #region Inicialização
 
         public Tela()
         {
@@ -39,6 +41,12 @@ namespace FTPc
         private void Tela_Load(object sender, EventArgs e)
         {
             MeuIni = new INI2();
+        }
+
+        private void Tela_Shown(object sender, EventArgs e)
+        {
+            int TamVert = Screen.PrimaryScreen.Bounds.Height;
+            this.Top = TamVert - 105;
             UltDt = new DateTime(2001, 1, 1);
             this.host = MeuIni.ReadString("Config", "host", "");
             if (this.host.Length == 0)
@@ -54,7 +62,9 @@ namespace FTPc
             }
             else
                 timer1.Enabled = true;
-        } 
+        }
+
+        #endregion
 
         #region Obtem Arquivo a atualizar
 
@@ -227,7 +237,7 @@ namespace FTPc
                 Atualiza();
             }
         }
-        #endregion        
-        
+        #endregion
+
     }
 }
