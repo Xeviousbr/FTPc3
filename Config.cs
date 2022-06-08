@@ -5,6 +5,8 @@ namespace FTPc
 {
     public partial class Config : Form
     {
+        private INI MeuIni;
+
         public Config()
         {
             InitializeComponent();
@@ -12,7 +14,7 @@ namespace FTPc
 
         private void button1_Click(object sender, EventArgs e)
         {
-            INI2 MeuIni = new INI2();
+            INI MeuIni = new INI();
             MeuIni.WriteString("Config", "host", txHost.Text);
             MeuIni.WriteString("Config", "user", txUser.Text);
             MeuIni.WriteString("Config", "pass", txSenha.Text);

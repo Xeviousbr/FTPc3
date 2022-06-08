@@ -6,16 +6,16 @@ using System.Windows.Forms;
 
 namespace FTPc
 {
-    internal class INI2
+    internal class INI
     {
         private string FileName;
 
         #region Constructors
-        public INI2(string filename)
+        public INI(string filename)
         {
             FileName = filename;
         }
-        public INI2()
+        public INI()
         {
             FileName = Path.ChangeExtension(Application.ExecutablePath, ".ini");
         }
