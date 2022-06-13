@@ -221,7 +221,7 @@ namespace FTPc
             this.host = MeuIni.ReadString("Config", "host", "");
             if (this.host.Length == 0)
             {
-                MessageBox.Show("Não foi configurado", "O programa será fechado");
+                MessageBox.Show("Não foi configurado", "Não foi configurado");
             }
         }
 

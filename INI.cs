@@ -27,6 +27,7 @@ namespace FTPc
         {
             StringBuilder sb = new StringBuilder(1024);
             GetPrivateProfileString(section, ident, defvalue, sb, 1024, FileName);
+            // MessageBox.Show(ident + " = " + sb.ToString(), FileName);
             return sb.ToString();
         }
         public int ReadInt(string section, string ident, int defvalue)

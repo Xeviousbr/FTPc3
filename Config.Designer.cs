@@ -176,6 +176,7 @@ namespace FTPc
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuração";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Config_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -14,12 +14,11 @@ namespace FTPc
 
         private void button1_Click(object sender, EventArgs e)
         {
-            INI MeuIni = new INI();
-            MeuIni.WriteString("Config", "host", txHost.Text);
-            MeuIni.WriteString("Config", "user", txUser.Text);
-            MeuIni.WriteString("Config", "pass", txSenha.Text);
-            MeuIni.WriteString("Config", "CamLocal", txLocal.Text);
-            MeuIni.WriteString("Config", "PastaBaseFTP", txCamFTP.Text);
+            this.MeuIni.WriteString("Config", "host", txHost.Text);
+            this.MeuIni.WriteString("Config", "user", txUser.Text);
+            this.MeuIni.WriteString("Config", "pass", txSenha.Text);
+            this.MeuIni.WriteString("Config", "CamLocal", txLocal.Text);
+            this.MeuIni.WriteString("Config", "PastaBaseFTP", txCamFTP.Text);
             Close();
         }
 
@@ -33,6 +32,16 @@ namespace FTPc
             else
                 MessageBox.Show("Impossível conectar", "Erro na configuração");
             btTeste.Enabled = true;
+        }
+
+        private void Config_Load(object sender, EventArgs e)
+        {
+            this.MeuIni = new INI();
+            txHost.Text = this.MeuIni.ReadString("Config", "host", "");
+            txUser.Text = this.MeuIni.ReadString("Config", "user","");
+            txSenha.Text = this.MeuIni.ReadString("Config", "pass","");
+            txLocal.Text = this.MeuIni.ReadString("Config", "CamLocal","");
+            txCamFTP.Text = this.MeuIni.ReadString("Config", "PastaBaseFTP", "");
         }
     }
 }
