@@ -136,6 +136,7 @@ namespace FTPc
                 string CamfTP = Resto.Substring(0, TamResto - TamNome);
                 if (this.cFPT.Upload(ese, CamfTP))
                 {
+                    lbErro.Visible = false;
 
                     // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
                     if (this.Transferencias == 0)
