@@ -124,7 +124,7 @@ namespace FTPc
             Console.WriteLine(ArqEsc.FullName);
             string ese = ArqEsc.FullName;
             DateTime DtGrv = ArqEsc.LastWriteTime;
-            if ((this.UltNome != ese) && (this.UltData != DtGrv))
+            if ((this.UltNome != ese) || (this.UltData != DtGrv))
             {
                 this.UltNome = ese;
                 this.UltData = DtGrv;
