@@ -10,6 +10,8 @@ namespace FTPc
     {
         private int PassoTimer = 0;
         private int Transferencias = 0;
+        private string UltNome = "";
+        private DateTime UltData;
         private string camLocal = "";
         private string PastaBaseFTP = "";
         private string host = "";
@@ -121,35 +123,50 @@ namespace FTPc
             Label1.Text = ArqEsc.FullName;
             Console.WriteLine(ArqEsc.FullName);
             string ese = ArqEsc.FullName;
-            int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
-            string Resto = ArqEsc.FullName.Substring(pos);
-            string NmArq = ArqEsc.Name;
-            int TamNome = NmArq.Length;
-            int TamResto = Resto.Length;
-            string CamfTP = Resto.Substring(0, TamResto - TamNome);
-            if (this.cFPT.Upload(ese, CamfTP))
+            DateTime DtGrv = ArqEsc.LastWriteTime;
+            if ((this.UltNome != ese) && (this.UltData != DtGrv))
             {
+                this.UltNome = ese;
+                this.UltData = DtGrv;
+                int pos = ArqEsc.DirectoryName.IndexOf(this.PastaBaseFTP) + this.PastaBaseFTP.Length;
+                string Resto = ArqEsc.FullName.Substring(pos);
+                string NmArq = ArqEsc.Name;
+                int TamNome = NmArq.Length;
+                int TamResto = Resto.Length;
+                string CamfTP = Resto.Substring(0, TamResto - TamNome);
+                if (this.cFPT.Upload(ese, CamfTP))
+                {
 
-                // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
-                if (this.Transferencias==0)
-                    pictureBox1.Visible = true;
+                    // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
+                    if (this.Transferencias == 0)
+                        pictureBox1.Visible = true;
 
-                this.Transferencias++;
-                timer1.Enabled = true;
-                Console.WriteLine("Upload realizado");
-                ProgressBar1.Value = ProgressBar1.Maximum;
-                ProgressBar1.Refresh();                
-                return true;
-            }
-            else
+                    this.Transferencias++;
+                    timer1.Enabled = true;
+                    Console.WriteLine("Upload realizado");
+                    ProgressBar1.Value = ProgressBar1.Maximum;
+                    ProgressBar1.Refresh();
+                    return true;
+                }
+                else
+                {
+                    string Erro = this.cFPT.getErro();
+                    Console.WriteLine("Erro: " + Erro);
+                    Console.WriteLine("ProgressBar1.Visible = false");
+                    ProgressBar1.Visible = false;
+                    lbErro.Text = Erro;
+                    lbErro.Visible = true;
+                    timer1.Enabled = false;
+                    return false;
+                }
+            } else
             {
-                string Erro = this.cFPT.getErro();
-                Console.WriteLine("Erro: " + Erro);
+                Console.WriteLine("Erro: Arquivo já enviado");
                 Console.WriteLine("ProgressBar1.Visible = false");
                 ProgressBar1.Visible = false;
-                lbErro.Text = Erro;
+                lbErro.Text = "Arquivo já enviado";
                 lbErro.Visible = true;
-                timer1.Enabled = false;
+                timer1.Enabled = true;
                 return false;
             }
         }
