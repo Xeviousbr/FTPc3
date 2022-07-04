@@ -194,7 +194,6 @@ namespace FTPc
                 {
                     case 1: // Desabilit
                         ProgressBar1.Value = 0;
-                        Console.WriteLine("Barra desabilitada");                        
                         break;
                     case 2: // Invisivel
                         ProgressBar1.Visible = false;
@@ -202,13 +201,14 @@ namespace FTPc
                         // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
                         pictureBox1.Visible = false;
 
-                        Console.WriteLine("Barra Invisível");
                         break;
                     default:
-                        Console.WriteLine("PassoTimer = 0");
                         timer1.Enabled = false;
                         this.WindowState = FormWindowState.Minimized;
                         this.PassoTimer = 0;
+                        int Tmp = (int)((float)timer1.Interval * (float).97);
+                        if (Tmp > 100)
+                            timer1.Interval = Tmp;
                         break;
                 }
             }
