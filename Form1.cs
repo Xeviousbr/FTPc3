@@ -11,6 +11,7 @@ namespace FTPc
         private int PassoTimer = 0;
         private int Transferencias = 0;
         private string UltNome = "";
+        private float TempoAtual = 2000;
         private DateTime UltData;
         private string camLocal = "";
         private string PastaBaseFTP = "";
@@ -167,6 +168,7 @@ namespace FTPc
                 ProgressBar1.Visible = false;
                 lbErro.Text = "Arquivo já enviado";
                 lbErro.Visible = true;
+                timer1.Interval = (int)this.TempoAtual;
                 timer1.Enabled = true;
                 return false;
             }
@@ -205,10 +207,13 @@ namespace FTPc
                     default:
                         timer1.Enabled = false;
                         this.WindowState = FormWindowState.Minimized;
-                        this.PassoTimer = 0;
-                        int Tmp = (int)((float)timer1.Interval * (float).97);
+                        this.PassoTimer = 0;                        
+                        int Tmp = (int)(this.TempoAtual * (float).97);
                         if (Tmp > 100)
+                        {
+                            this.TempoAtual = Tmp;
                             timer1.Interval = Tmp;
+                        }                            
                         break;
                 }
             }
