@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -98,18 +99,18 @@ namespace FTPc
 
         private void SearchFiles(DirectoryInfo info)
         {
-            // É POSSÍVEL MELHORAR A PERFORMANCE, FILTRANDO AS EXTENSÕES JÁ NO CARREGAMENTO DA LISTA DOS ARQUIVOS
-            FileInfo[] arquivos = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
+            List<string> extensoesPermitidas = new List<string> { ".php", ".js", ".css" };
+            FileInfo[] arquivos = info.GetFiles()
+                .Where(arquivo => extensoesPermitidas.Contains(arquivo.Extension.ToLower()))
+                .OrderByDescending(arquivo => arquivo.CreationTime)
+                .ToArray();
             foreach (FileInfo arquivo in arquivos)
             {
                 DateTime EssaData = arquivo.LastWriteTime;
                 if (EssaData > UltDt)
                 {
-                    if ((arquivo.Extension == ".php") || (arquivo.Extension == ".js"))
-                    {
-                        UltDt = EssaData;
-                        ArqEsc = arquivo;
-                    }
+                    UltDt = EssaData;
+                    ArqEsc = arquivo;
                 }
             }
         }
