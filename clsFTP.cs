@@ -46,36 +46,20 @@ namespace FTPc
             this.Tot = 0;
             string Cam = Caminho.Replace(@"\", @"/");
             FileInfo _arquivoInfo = new FileInfo(_nomeArquivo);
-            string Suri = "ftp://" + this.ftpIPServidor + Cam + _arquivoInfo.Name;
+            string Suri = "ftp://" + this.ftpIPServidor + @"/" + Cam + _arquivoInfo.Name;
             FtpWebRequest requisicaoFTP;
-
-            // Cria um objeto FtpWebRequest a partir da Uri fornecida
             requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
-
-            // Fornece as credenciais de WebPermission
             requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
-
-            // Por padrão KeepAlive é true, 
             requisicaoFTP.KeepAlive = false;
-
-            // Especifica o comando a ser executado
             requisicaoFTP.Method = WebRequestMethods.Ftp.UploadFile;
-
-            // Especifica o tipo de dados a ser transferido
             requisicaoFTP.UseBinary = true;
-
-            // Notifica o servidor seobre o tamanho do arquivo a enviar
             requisicaoFTP.ContentLength = _arquivoInfo.Length;
-
             this.ProgressBar1.Visible = true;
             Console.WriteLine("ProgressBar1.Visible = true");
             this.ProgressBar1.Maximum = (int)_arquivoInfo.Length;
             Console.WriteLine("ProgressBar1.Maximum = "+ this.ProgressBar1.Maximum.ToString());
             this.ProgressBar1.Enabled = true;
-
-            // Abre um stream (System.IO.FileStream) para o arquivo a ser enviado
             FileStream fs = _arquivoInfo.OpenRead();
-
             bool sair = false;
             bool bReturn = false;
             while (sair==false) {

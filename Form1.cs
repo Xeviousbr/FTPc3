@@ -130,13 +130,24 @@ namespace FTPc
             {
                 this.UltNome = ese;
                 this.UltData = DtGrv;
-                string modifiedFullName = ArqEsc.FullName.Replace("\\", "/");
-                int pos = modifiedFullName.IndexOf(this.PastaBaseFTP);
-                string Resto = ArqEsc.FullName.Substring(pos).Replace("/", "\\");
+                // string modifiedFullName = ArqEsc.FullName.Replace("\\", "/");
+
+                // int pos = modifiedFullName.IndexOf(this.PastaBaseFTP);
+                int pos = ArqEsc.FullName.IndexOf(this.PastaBaseFTP.Replace("/", "\\"));
+
+                //string Resto = ArqEsc.FullName.Substring(pos).Replace("/", "\\");
+                //string NmArq = ArqEsc.Name;
+                //int TamNome = NmArq.Length;
+                //int TamResto = Resto.Length;
+                //string CamfTP = Resto.Substring(0, TamResto - TamNome + this.PastaBaseFTP.Length);
+
+                string CamfTP = ArqEsc.FullName.Substring(pos);
                 string NmArq = ArqEsc.Name;
-                int TamNome = NmArq.Length;
-                int TamResto = Resto.Length;
-                string CamfTP = Resto.Substring(0, TamResto - TamNome + this.PastaBaseFTP.Length);
+                if (CamfTP.EndsWith(NmArq))
+                {
+                    CamfTP = CamfTP.Remove(CamfTP.Length - NmArq.Length);
+                }
+
                 if (this.cFPT.Upload(ese, CamfTP))
                 {
                     lbErro.Visible = false;
