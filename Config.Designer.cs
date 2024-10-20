@@ -41,6 +41,8 @@ namespace FTPc
             this.txHost = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btTeste = new System.Windows.Forms.Button();
+            this.txPorta = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -135,7 +137,7 @@ namespace FTPc
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(214, 151);
+            this.button1.Location = new System.Drawing.Point(216, 177);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 10;
@@ -145,7 +147,7 @@ namespace FTPc
             // 
             // btTeste
             // 
-            this.btTeste.Location = new System.Drawing.Point(112, 151);
+            this.btTeste.Location = new System.Drawing.Point(111, 177);
             this.btTeste.Name = "btTeste";
             this.btTeste.Size = new System.Drawing.Size(75, 23);
             this.btTeste.TabIndex = 11;
@@ -153,11 +155,31 @@ namespace FTPc
             this.btTeste.UseVisualStyleBackColor = true;
             this.btTeste.Click += new System.EventHandler(this.btTeste_Click);
             // 
+            // txPorta
+            // 
+            this.txPorta.Location = new System.Drawing.Point(112, 151);
+            this.txPorta.Name = "txPorta";
+            this.txPorta.Size = new System.Drawing.Size(273, 20);
+            this.txPorta.TabIndex = 13;
+            this.txPorta.Text = " 20";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(12, 151);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 17);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Porta:";
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 181);
+            this.ClientSize = new System.Drawing.Size(397, 208);
+            this.Controls.Add(this.txPorta);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btTeste);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txHost);
@@ -196,5 +218,7 @@ namespace FTPc
         private System.Windows.Forms.TextBox txHost;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btTeste;
+        private System.Windows.Forms.TextBox txPorta;
+        private System.Windows.Forms.Label label6;
     }
 }

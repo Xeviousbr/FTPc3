@@ -16,6 +16,7 @@ namespace FTPc
         string ftpIPServidor = "";
         string ftpUsuarioID = "";
         string ftpSenha = "";
+        private int Porta;
         private string Erro = "";
         private ProgressBar ProgressBar1= null;
 
@@ -34,11 +35,12 @@ namespace FTPc
             }
         }
 
-        public FTP(string ftpIPServidor, string ftpUsuarioID, string ftpSenha)
+        public FTP(string ftpIPServidor, string ftpUsuarioID, string ftpSenha, int porta=20)
         {
             this.ftpIPServidor = ftpIPServidor;
             this.ftpUsuarioID = ftpUsuarioID;
             this.ftpSenha = ftpSenha;
+            this.Porta = porta;
         }
 
         public bool Upload(string _nomeArquivo, string Caminho)
@@ -46,7 +48,10 @@ namespace FTPc
             this.Tot = 0;
             string Cam = Caminho.Replace(@"\", @"/");
             FileInfo _arquivoInfo = new FileInfo(_nomeArquivo);
-            string Suri = "ftp://" + this.ftpIPServidor + @"/" + Cam + _arquivoInfo.Name;
+
+            string Suri = "ftp://" + this.ftpIPServidor + ":" + this.Porta + Cam + _arquivoInfo.Name;
+            // string Suri = "ftp://" + this.ftpIPServidor + @"/" + Cam + _arquivoInfo.Name;
+
             FtpWebRequest requisicaoFTP;
             requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
             requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
@@ -72,7 +77,10 @@ namespace FTPc
                 {
                     if (ret.IndexOf("553") > 0)
                     {
-                        string sUrlD = "ftp://" + this.ftpIPServidor + Cam;
+
+                        string sUrlD = "ftp://" + this.ftpIPServidor + ":" + this.Porta + Cam;
+                        // string sUrlD = "ftp://" + this.ftpIPServidor + Cam;
+
                         FtpWebRequest requestCD = (FtpWebRequest)FtpWebRequest.Create(new Uri(sUrlD));
                         requestCD.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);
                         requestCD.KeepAlive = false;
@@ -138,7 +146,7 @@ namespace FTPc
         public bool Testa()
         {
             string StringTeste = "Teste do FtpTeitor";
-            string Suri = "ftp://" + this.ftpIPServidor + @"/Teste.tst";
+            string Suri = "ftp://" + this.ftpIPServidor + ":" + this.Porta + @"/Teste.tst";
             FtpWebRequest requisicaoFTP;
             requisicaoFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(Suri));
             requisicaoFTP.Credentials = new NetworkCredential(this.ftpUsuarioID, this.ftpSenha);            

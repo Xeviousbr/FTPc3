@@ -19,6 +19,7 @@ namespace FTPc
             this.MeuIni.WriteString("Config", "pass", txSenha.Text);
             this.MeuIni.WriteString("Config", "CamLocal", txLocal.Text);
             this.MeuIni.WriteString("Config", "PastaBaseFTP", txCamFTP.Text);
+            this.MeuIni.WriteString("Config", "Porta", txPorta.Text);            
             Close();
         }
 
@@ -26,7 +27,8 @@ namespace FTPc
         {
             btTeste.Enabled = false;            
             FTP cFPT;
-            cFPT = new FTP(txHost.Text, txUser.Text, txSenha.Text);
+            int Porta = Convert.ToInt32(txPorta.Text);
+            cFPT = new FTP(txHost.Text, txUser.Text, txSenha.Text, Porta);
             if (cFPT.Testa())
                 MessageBox.Show("Teste realizado com sucesso", "Credenciais válidas");
             else
@@ -42,6 +44,7 @@ namespace FTPc
             txSenha.Text = this.MeuIni.ReadString("Config", "pass","");
             txLocal.Text = this.MeuIni.ReadString("Config", "CamLocal","");
             txCamFTP.Text = this.MeuIni.ReadString("Config", "PastaBaseFTP", "");
+            txPorta.Text = this.MeuIni.ReadString("Config", "Porta", "20");
         }
     }
 }
