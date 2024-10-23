@@ -35,7 +35,7 @@ namespace FTPc
             }
         }
 
-        public FTP(string ftpIPServidor, string ftpUsuarioID, string ftpSenha, int porta=20)
+        public FTP(string ftpIPServidor, string ftpUsuarioID, string ftpSenha, int porta=21)
         {
             this.ftpIPServidor = ftpIPServidor;
             this.ftpUsuarioID = ftpUsuarioID;

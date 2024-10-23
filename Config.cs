@@ -7,6 +7,17 @@ namespace FTPc
     {
         private INI MeuIni;
 
+        private void Config_Load(object sender, EventArgs e)
+        {
+            this.MeuIni = new INI();
+            txHost.Text = this.MeuIni.ReadString("Config", "host", "");
+            txUser.Text = this.MeuIni.ReadString("Config", "user", "");
+            txSenha.Text = this.MeuIni.ReadString("Config", "pass", "");
+            txLocal.Text = this.MeuIni.ReadString("Config", "CamLocal", "");
+            txCamFTP.Text = this.MeuIni.ReadString("Config", "PastaBaseFTP", "");
+            txPorta.Text = this.MeuIni.ReadString("Config", "Porta", "21");
+        }
+
         public Config()
         {
             InitializeComponent();
@@ -36,15 +47,5 @@ namespace FTPc
             btTeste.Enabled = true;
         }
 
-        private void Config_Load(object sender, EventArgs e)
-        {
-            this.MeuIni = new INI();
-            txHost.Text = this.MeuIni.ReadString("Config", "host", "");
-            txUser.Text = this.MeuIni.ReadString("Config", "user","");
-            txSenha.Text = this.MeuIni.ReadString("Config", "pass","");
-            txLocal.Text = this.MeuIni.ReadString("Config", "CamLocal","");
-            txCamFTP.Text = this.MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            txPorta.Text = this.MeuIni.ReadString("Config", "Porta", "20");
-        }
     }
 }

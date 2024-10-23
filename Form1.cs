@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -8,6 +8,18 @@ using System.Windows.Forms;
 namespace FTPc
 {
     public partial class Tela : Form
+int quantidadeFtps = int.Parse(MeuIni.ReadString("Config", "ftpCount", "1"));
+for (int i = 1; i <= quantidadeFtps; i++) 
+{
+    cbFTP.Items.Add("FTP " + i);
+}
+cbFTP.SelectedIndex = 0;
+int quantidadeFtps = int.Parse(MeuIni.ReadString("Config", "ftpCount", "1"));
+for (int i = 1; i <= quantidadeFtps; i++) 
+{
+    cbFTP.Items.Add("FTP " + i);
+}
+cbFTP.SelectedIndex = 0;
     {
         private int PassoTimer = 0;
         private int Transferencias = 0;
@@ -35,7 +47,7 @@ namespace FTPc
             this.PassoTimer = 0;
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
-            int Porta = MeuIni.ReadInt("Config", "Porta", 20);
+            int Porta = MeuIni.ReadInt("Config", "Porta", 21);
             this.cFPT = new FTP(this.host, user, pass, Porta);
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
