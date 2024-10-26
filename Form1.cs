@@ -22,6 +22,27 @@ namespace FTPc
         private INI MeuIni;
         private FTP cFPT;
 
+        private void Tela_Shown(object sender, EventArgs e)
+        {
+            int TamVert = Screen.PrimaryScreen.Bounds.Height;
+            this.Top = TamVert - 147;
+            UltDt = new DateTime(2001, 1, 1);
+            this.host = MeuIni.ReadString("Config", "host", "");
+            if (this.host.Length == 0)
+            {
+                Config FConfig = new Config();
+                FConfig.ShowDialog();
+                this.host = MeuIni.ReadString("Config", "host", "");
+                if (this.host.Length == 0)
+                {
+                    MessageBox.Show("Não foi configurado", "O programa será fechado");
+                    Environment.Exit(0);
+                }
+            }
+            else
+                timer1.Enabled = true;
+        }
+
         #region Inicialização
 
         public Tela()
@@ -45,27 +66,6 @@ namespace FTPc
         private void Tela_Load(object sender, EventArgs e)
         {
             MeuIni = new INI();
-        }
-
-        private void Tela_Shown(object sender, EventArgs e)
-        {
-            int TamVert = Screen.PrimaryScreen.Bounds.Height;
-            this.Top = TamVert - 147;
-            UltDt = new DateTime(2001, 1, 1);
-            this.host = MeuIni.ReadString("Config", "host", "");
-            if (this.host.Length == 0)
-            {
-                Config FConfig = new Config();
-                FConfig.ShowDialog();
-                this.host = MeuIni.ReadString("Config", "host", "");
-                if (this.host.Length == 0)
-                {
-                    MessageBox.Show("Não foi configurado", "O programa será fechado");
-                    Environment.Exit(0);
-                }
-            }
-            else
-                timer1.Enabled = true;
         }
 
         #endregion
