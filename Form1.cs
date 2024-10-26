@@ -8,18 +8,6 @@ using System.Windows.Forms;
 namespace FTPc
 {
     public partial class Tela : Form
-int quantidadeFtps = int.Parse(MeuIni.ReadString("Config", "ftpCount", "1"));
-for (int i = 1; i <= quantidadeFtps; i++) 
-{
-    cbFTP.Items.Add("FTP " + i);
-}
-cbFTP.SelectedIndex = 0;
-int quantidadeFtps = int.Parse(MeuIni.ReadString("Config", "ftpCount", "1"));
-for (int i = 1; i <= quantidadeFtps; i++) 
-{
-    cbFTP.Items.Add("FTP " + i);
-}
-cbFTP.SelectedIndex = 0;
     {
         private int PassoTimer = 0;
         private int Transferencias = 0;
@@ -47,8 +35,7 @@ cbFTP.SelectedIndex = 0;
             this.PassoTimer = 0;
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
-            int Porta = MeuIni.ReadInt("Config", "Porta", 21);
-            this.cFPT = new FTP(this.host, user, pass, Porta);
+            this.cFPT = new FTP(this.host, user, pass);
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
             Console.WriteLine("cFPT.setBarra(ref ProgressBar1)");
@@ -143,13 +130,24 @@ cbFTP.SelectedIndex = 0;
             {
                 this.UltNome = ese;
                 this.UltData = DtGrv;
+                // string modifiedFullName = ArqEsc.FullName.Replace("\\", "/");
+
+                // int pos = modifiedFullName.IndexOf(this.PastaBaseFTP);
                 int pos = ArqEsc.FullName.IndexOf(this.PastaBaseFTP.Replace("/", "\\"));
+
+                //string Resto = ArqEsc.FullName.Substring(pos).Replace("/", "\\");
+                //string NmArq = ArqEsc.Name;
+                //int TamNome = NmArq.Length;
+                //int TamResto = Resto.Length;
+                //string CamfTP = Resto.Substring(0, TamResto - TamNome + this.PastaBaseFTP.Length);
+
                 string CamfTP = ArqEsc.FullName.Substring(pos);
                 string NmArq = ArqEsc.Name;
                 if (CamfTP.EndsWith(NmArq))
                 {
                     CamfTP = CamfTP.Remove(CamfTP.Length - NmArq.Length);
                 }
+
                 if (this.cFPT.Upload(ese, CamfTP))
                 {
                     lbErro.Visible = false;
@@ -176,7 +174,8 @@ cbFTP.SelectedIndex = 0;
                     timer1.Enabled = false;
                     return false;
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("Erro: Arquivo já enviado");
                 Console.WriteLine("ProgressBar1.Visible = false");
@@ -191,20 +190,22 @@ cbFTP.SelectedIndex = 0;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (this.Transferencias==0)
+            if (this.Transferencias == 0)
             {
                 this.PassoTimer++;
                 int Tmp = 6 - this.PassoTimer;
-                if (Tmp==0)
+                if (Tmp == 0)
                 {
                     this.Transferencias = 1;
                     Label1.Text = "";
-                    this.ClicouInicio();                    
-                } else
+                    this.ClicouInicio();
+                }
+                else
                 {
                     Label1.Text = Tmp.ToString();
                 }
-            } else
+            }
+            else
             {
                 this.PassoTimer++;
                 switch (PassoTimer)
@@ -222,13 +223,13 @@ cbFTP.SelectedIndex = 0;
                     default:
                         timer1.Enabled = false;
                         this.WindowState = FormWindowState.Minimized;
-                        this.PassoTimer = 0;                        
+                        this.PassoTimer = 0;
                         int Tmp = (int)(this.TempoAtual * (float).97);
                         if (Tmp > 100)
                         {
                             this.TempoAtual = Tmp;
                             timer1.Interval = Tmp;
-                        }                            
+                        }
                         break;
                 }
             }

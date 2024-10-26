@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 
 namespace FTPc
@@ -6,32 +6,88 @@ namespace FTPc
     public partial class Config : Form
     {
         private INI MeuIni;
+        private int iftpAtu = 0;
+        private int numeroFtps = 0;
+        private bool carregando = false;
+
+        private void cbFTP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!carregando)
+            {
+                iftpAtu = cbFTP.SelectedIndex + 1;
+                string ftpAtu = iftpAtu.ToString();
+                txHost.Text = this.MeuIni.ReadString(ftpAtu, "host", "");
+                txUser.Text = this.MeuIni.ReadString(ftpAtu, "user", "");
+                txSenha.Text = this.MeuIni.ReadString(ftpAtu, "pass", "");
+                txLocal.Text = this.MeuIni.ReadString(ftpAtu, "CamLocal", "");
+                txCamFTP.Text = this.MeuIni.ReadString(ftpAtu, "PastaBaseFTP", "");
+                txPorta.Text = this.MeuIni.ReadString(ftpAtu, "Porta", "21");                        
+            }
+        }
 
         private void Config_Load(object sender, EventArgs e)
         {
+            carregando = true;
             this.MeuIni = new INI();
-            txHost.Text = this.MeuIni.ReadString("Config", "host", "");
-            txUser.Text = this.MeuIni.ReadString("Config", "user", "");
-            txSenha.Text = this.MeuIni.ReadString("Config", "pass", "");
-            txLocal.Text = this.MeuIni.ReadString("Config", "CamLocal", "");
-            txCamFTP.Text = this.MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            txPorta.Text = this.MeuIni.ReadString("Config", "Porta", "21");
+            numeroFtps = this.MeuIni.ReadInt("Config", "ftp_count", 0);
+            for (int i = 1; i <= numeroFtps; i++)
+            {
+                string sftp = this.MeuIni.ReadString(i.ToString(), "nome", "");
+                cbFTP.Items.Add(sftp);
+            }
+            if (numeroFtps > 0)
+            {
+                iftpAtu = this.MeuIni.ReadInt("Config", "ftpAtu", 0);
+                cbFTP.SelectedIndex = iftpAtu - 1;
+                string ftpAtu = iftpAtu.ToString();
+                txHost.Text = this.MeuIni.ReadString(ftpAtu, "host", "");
+                txUser.Text = this.MeuIni.ReadString(ftpAtu, "user", "");
+                txSenha.Text = this.MeuIni.ReadString(ftpAtu, "pass", "");
+                txLocal.Text = this.MeuIni.ReadString(ftpAtu, "CamLocal", "");
+                txCamFTP.Text = this.MeuIni.ReadString(ftpAtu, "PastaBaseFTP", "");
+                txPorta.Text = this.MeuIni.ReadString(ftpAtu, "Porta", "21");
+            }
+            carregando = false; ;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (cbFTP.SelectedIndex == -1)
+            {
+                iftpAtu = numeroFtps + 1;
+                iftpAtu = numeroFtps;
+                numeroFtps++;
+                iftpAtu = numeroFtps;
+                this.MeuIni.WriteInt("Config", "ftp_count", iftpAtu);
+                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);        
+                this.MeuIni.WriteString(iftpAtu.ToString(), "nome", cbFTP.Text);
+                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);
+                this.MeuIni.WriteInt("Config", "ftp_count", numeroFtps);
+            }
+            this.MeuIni.WriteString(iftpAtu.ToString(), "host", txHost.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "user", txUser.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "pass", txSenha.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "CamLocal", txLocal.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "PastaBaseFTP", txCamFTP.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "Porta", txPorta.Text);
+            Close();
+        }
+
+        private void btNovo_Click(object sender, EventArgs e)
+        {
+            txHost.Clear();
+            txUser.Clear();
+            txSenha.Clear();
+            txLocal.Clear();
+            txCamFTP.Clear();
+            txPorta.Clear();
+            cbFTP.Text = "";
+            cbFTP.Focus();
         }
 
         public Config()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.MeuIni.WriteString("Config", "host", txHost.Text);
-            this.MeuIni.WriteString("Config", "user", txUser.Text);
-            this.MeuIni.WriteString("Config", "pass", txSenha.Text);
-            this.MeuIni.WriteString("Config", "CamLocal", txLocal.Text);
-            this.MeuIni.WriteString("Config", "PastaBaseFTP", txCamFTP.Text);
-            this.MeuIni.WriteString("Config", "Porta", txPorta.Text);            
-            Close();
         }
 
         private void btTeste_Click(object sender, EventArgs e)

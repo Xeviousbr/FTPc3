@@ -45,6 +45,7 @@ namespace FTPc
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cbFTP = new System.Windows.Forms.ComboBox();
+            this.btNovo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -102,47 +103,42 @@ namespace FTPc
             this.txLocal.Location = new System.Drawing.Point(112, 126);
             this.txLocal.Name = "txLocal";
             this.txLocal.Size = new System.Drawing.Size(273, 20);
-            this.txLocal.TabIndex = 5;
-            this.txLocal.Text = " ";
+            this.txLocal.TabIndex = 4;
             // 
             // txCamFTP
             // 
             this.txCamFTP.Location = new System.Drawing.Point(112, 156);
             this.txCamFTP.Name = "txCamFTP";
             this.txCamFTP.Size = new System.Drawing.Size(273, 20);
-            this.txCamFTP.TabIndex = 6;
-            this.txCamFTP.Text = " ";
+            this.txCamFTP.TabIndex = 5;
             // 
             // txSenha
             // 
             this.txSenha.Location = new System.Drawing.Point(112, 97);
             this.txSenha.Name = "txSenha";
             this.txSenha.Size = new System.Drawing.Size(273, 20);
-            this.txSenha.TabIndex = 7;
-            this.txSenha.Text = " ";
+            this.txSenha.TabIndex = 3;
             // 
             // txUser
             // 
             this.txUser.Location = new System.Drawing.Point(112, 68);
             this.txUser.Name = "txUser";
             this.txUser.Size = new System.Drawing.Size(273, 20);
-            this.txUser.TabIndex = 8;
-            this.txUser.Text = " ";
+            this.txUser.TabIndex = 2;
             // 
             // txHost
             // 
             this.txHost.Location = new System.Drawing.Point(112, 39);
             this.txHost.Name = "txHost";
             this.txHost.Size = new System.Drawing.Size(273, 20);
-            this.txHost.TabIndex = 9;
-            this.txHost.Text = " ";
+            this.txHost.TabIndex = 1;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(216, 208);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
+            this.button1.TabIndex = 8;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -152,7 +148,7 @@ namespace FTPc
             this.btTeste.Location = new System.Drawing.Point(111, 208);
             this.btTeste.Name = "btTeste";
             this.btTeste.Size = new System.Drawing.Size(75, 23);
-            this.btTeste.TabIndex = 11;
+            this.btTeste.TabIndex = 7;
             this.btTeste.Text = "Testar";
             this.btTeste.UseVisualStyleBackColor = true;
             this.btTeste.Click += new System.EventHandler(this.btTeste_Click);
@@ -162,8 +158,7 @@ namespace FTPc
             this.txPorta.Location = new System.Drawing.Point(112, 182);
             this.txPorta.Name = "txPorta";
             this.txPorta.Size = new System.Drawing.Size(273, 20);
-            this.txPorta.TabIndex = 13;
-            this.txPorta.Text = " 21";
+            this.txPorta.TabIndex = 6;
             // 
             // label6
             // 
@@ -190,14 +185,26 @@ namespace FTPc
             this.cbFTP.FormattingEnabled = true;
             this.cbFTP.Location = new System.Drawing.Point(112, 12);
             this.cbFTP.Name = "cbFTP";
-            this.cbFTP.Size = new System.Drawing.Size(273, 21);
-            this.cbFTP.TabIndex = 15;
+            this.cbFTP.Size = new System.Drawing.Size(216, 21);
+            this.cbFTP.TabIndex = 0;
+            this.cbFTP.SelectedIndexChanged += new System.EventHandler(this.cbFTP_SelectedIndexChanged);
+            // 
+            // btNovo
+            // 
+            this.btNovo.Location = new System.Drawing.Point(334, 12);
+            this.btNovo.Name = "btNovo";
+            this.btNovo.Size = new System.Drawing.Size(51, 21);
+            this.btNovo.TabIndex = 15;
+            this.btNovo.Text = "Novo";
+            this.btNovo.UseVisualStyleBackColor = true;
+            this.btNovo.Click += new System.EventHandler(this.btNovo_Click);
             // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(397, 240);
+            this.Controls.Add(this.btNovo);
             this.Controls.Add(this.cbFTP);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txPorta);
@@ -244,5 +251,6 @@ namespace FTPc
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbFTP;
+        private System.Windows.Forms.Button btNovo;
     }
 }
