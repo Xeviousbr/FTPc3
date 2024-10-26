@@ -22,12 +22,28 @@ namespace FTPc
         private INI MeuIni;
         private FTP cFPT;
 
+        private void Inicializa()
+        {
+            this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PassoTimer = 0;
+            string user = MeuIni.ReadString("Config", "user", "");
+            string pass = MeuIni.ReadString("Config", "pass", "");
+            this.cFPT = new FTP(this.host, user, pass);
+            this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
+            this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
+            Console.WriteLine("cFPT.setBarra(ref ProgressBar1)");
+            this.cFPT.setBarra(ref ProgressBar1);
+        }
+
         private void Tela_Shown(object sender, EventArgs e)
         {
             int TamVert = Screen.PrimaryScreen.Bounds.Height;
             this.Top = TamVert - 147;
             UltDt = new DateTime(2001, 1, 1);
-            this.host = MeuIni.ReadString("Config", "host", "");
+            int numeroFtps = this.MeuIni.ReadInt("Config", "ftp_count", 0);
+            int iftpAtu = this.MeuIni.ReadInt("Config", "ftpAtu", 0);
+            string ftpAtu = iftpAtu.ToString();
+            this.host = MeuIni.ReadString(ftpAtu, "host", "");        
             if (this.host.Length == 0)
             {
                 Config FConfig = new Config();
@@ -48,19 +64,6 @@ namespace FTPc
         public Tela()
         {
             InitializeComponent();
-        }
-
-        private void Inicializa()
-        {
-            this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.PassoTimer = 0;
-            string user = MeuIni.ReadString("Config", "user", "");
-            string pass = MeuIni.ReadString("Config", "pass", "");
-            this.cFPT = new FTP(this.host, user, pass);
-            this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
-            this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            Console.WriteLine("cFPT.setBarra(ref ProgressBar1)");
-            this.cFPT.setBarra(ref ProgressBar1);
         }
 
         private void Tela_Load(object sender, EventArgs e)
