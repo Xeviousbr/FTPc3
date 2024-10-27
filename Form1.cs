@@ -21,17 +21,18 @@ namespace FTPc
         private FileInfo ArqEsc;
         private INI MeuIni;
         private FTP cFPT;
-        private int iftpAtu;
+        private string ftpAtu;
 
         private void Inicializa()
         {
             this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.PassoTimer = 0;            
-            string user = MeuIni.ReadString("Config", "user", "");
-            string pass = MeuIni.ReadString("Config", "pass", "");
-            this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
-            this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            this.cFPT = new FTP(this.host, user, pass);
+            string user = MeuIni.ReadString(this.ftpAtu, "user", "");
+            string pass = MeuIni.ReadString(this.ftpAtu, "pass", "");
+            this.camLocal = MeuIni.ReadString(this.ftpAtu, "CamLocal", "");
+            this.PastaBaseFTP = MeuIni.ReadString(this.ftpAtu, "PastaBaseFTP", "");
+            int Porta = this.MeuIni.ReadInt(ftpAtu, "Porta", 21);
+            this.cFPT = new FTP(this.host, user, pass, Porta);
             this.cFPT.setBarra(ref ProgressBar1);
         }
 
@@ -41,10 +42,7 @@ namespace FTPc
             this.Top = TamVert - 147;
             UltDt = new DateTime(2001, 1, 1);
             int numeroFtps = this.MeuIni.ReadInt("Config", "ftp_count", 0);
-            this.iftpAtu = this.MeuIni.ReadInt("Config", "ftpAtu", 0);
-            string ftpAtu = this.iftpAtu.ToString();
-            this.host = MeuIni.ReadString(ftpAtu, "host", "");
-            if (this.host.Length == 0)
+            if (numeroFtps == 0)
             {
                 Config FConfig = new Config();
                 FConfig.ShowDialog();
@@ -56,7 +54,12 @@ namespace FTPc
                 }
             }
             else
+            {
+                this.ftpAtu = this.MeuIni.ReadString("Config", "ftpAtu", "1");
+                this.host = MeuIni.ReadString(this.ftpAtu, "host", "");
                 timer1.Enabled = true;
+            }
+                
         }
 
         #region Inicialização
@@ -133,28 +136,16 @@ namespace FTPc
             {
                 this.UltNome = ese;
                 this.UltData = DtGrv;
-                // string modifiedFullName = ArqEsc.FullName.Replace("\\", "/");
-
-                // int pos = modifiedFullName.IndexOf(this.PastaBaseFTP);
                 int pos = ArqEsc.FullName.IndexOf(this.PastaBaseFTP.Replace("/", "\\"));
-
-                //string Resto = ArqEsc.FullName.Substring(pos).Replace("/", "\\");
-                //string NmArq = ArqEsc.Name;
-                //int TamNome = NmArq.Length;
-                //int TamResto = Resto.Length;
-                //string CamfTP = Resto.Substring(0, TamResto - TamNome + this.PastaBaseFTP.Length);
-
                 string CamfTP = ArqEsc.FullName.Substring(pos);
                 string NmArq = ArqEsc.Name;
                 if (CamfTP.EndsWith(NmArq))
                 {
                     CamfTP = CamfTP.Remove(CamfTP.Length - NmArq.Length);
                 }
-
                 if (this.cFPT.Upload(ese, CamfTP))
                 {
                     lbErro.Visible = false;
-
                     // Gambiarra pra mostrar um Progress fake, na primeira vez, não sei pq não aparece o Progress na primeira faz
                     if (this.Transferencias == 0)
                         pictureBox1.Visible = true;
