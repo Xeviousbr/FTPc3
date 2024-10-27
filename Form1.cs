@@ -9,19 +9,32 @@ namespace FTPc
 {
     public partial class Tela : Form
     {
-        private int PassoTimer = 0;
-        private int Transferencias = 0;
-        private string UltNome = "";
-        private float TempoAtual = 2000;
-        private DateTime UltData;
-        private string camLocal = "";
-        private string PastaBaseFTP = "";
-        private string host = "";
-        private DateTime UltDt;
         private FileInfo ArqEsc;
         private INI MeuIni;
         private FTP cFPT;
+        private DateTime UltData;
+        private DateTime UltDt;
+        private int PassoTimer = 0;
+        private int Transferencias = 0;        
+        private float TempoAtual = 2000;
+        private string camLocal = "";
+        private string PastaBaseFTP = "";
+        private string host = "";                
         private string ftpAtu;
+        private string UltNome = "";
+
+        private void btConfig_Click(object sender, EventArgs e)
+        {
+            this.Label1.Text = "";
+            this.timer1.Enabled = false;
+            Config FConfig = new Config();
+            FConfig.ShowDialog();
+            int numeroFtps = this.MeuIni.ReadInt("Config", "ftp_count", 0);
+            if (numeroFtps == 0)
+            {
+                MessageBox.Show("Não foi configurado", "Não foi configurado");
+            }
+        }
 
         private void Inicializa()
         {
@@ -243,19 +256,6 @@ namespace FTPc
         private void btInicio_Click(object sender, EventArgs e)
         {
             this.ClicouInicio();
-        }
-
-        private void btConfig_Click(object sender, EventArgs e)
-        {
-            this.Label1.Text = "";
-            this.timer1.Enabled = false;
-            Config FConfig = new Config();
-            FConfig.ShowDialog();
-            this.host = MeuIni.ReadString("Config", "host", "");
-            if (this.host.Length == 0)
-            {
-                MessageBox.Show("Não foi configurado", "Não foi configurado");
-            }
         }
 
         private void Tela_Resize_1(object sender, EventArgs e)

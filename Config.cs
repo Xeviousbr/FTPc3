@@ -10,6 +10,31 @@ namespace FTPc
         private int numeroFtps = 0;
         private bool carregando = false;
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (cbFTP.SelectedIndex == -1)
+            {
+                iftpAtu = numeroFtps + 1;
+                iftpAtu = numeroFtps;
+                numeroFtps++;
+                iftpAtu = numeroFtps;
+                this.MeuIni.WriteInt("Config", "ftp_count", iftpAtu);
+                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);
+                this.MeuIni.WriteString(iftpAtu.ToString(), "nome", cbFTP.Text);
+                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);
+                this.MeuIni.WriteInt("Config", "ftp_count", numeroFtps);
+            }
+            this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "host", txHost.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "user", txUser.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "pass", txSenha.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "CamLocal", txLocal.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "PastaBaseFTP", txCamFTP.Text);
+            this.MeuIni.WriteString(iftpAtu.ToString(), "Porta", txPorta.Text);
+            Close();
+        }
+
+
         private void cbFTP_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!carregando)
@@ -48,29 +73,6 @@ namespace FTPc
                 txPorta.Text = this.MeuIni.ReadString(ftpAtu, "Porta", "21");
             }
             carregando = false; ;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (cbFTP.SelectedIndex == -1)
-            {
-                iftpAtu = numeroFtps + 1;
-                iftpAtu = numeroFtps;
-                numeroFtps++;
-                iftpAtu = numeroFtps;
-                this.MeuIni.WriteInt("Config", "ftp_count", iftpAtu);
-                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);        
-                this.MeuIni.WriteString(iftpAtu.ToString(), "nome", cbFTP.Text);
-                this.MeuIni.WriteInt("Config", "ftpAtu", iftpAtu);
-                this.MeuIni.WriteInt("Config", "ftp_count", numeroFtps);
-            }
-            this.MeuIni.WriteString(iftpAtu.ToString(), "host", txHost.Text);
-            this.MeuIni.WriteString(iftpAtu.ToString(), "user", txUser.Text);
-            this.MeuIni.WriteString(iftpAtu.ToString(), "pass", txSenha.Text);
-            this.MeuIni.WriteString(iftpAtu.ToString(), "CamLocal", txLocal.Text);
-            this.MeuIni.WriteString(iftpAtu.ToString(), "PastaBaseFTP", txCamFTP.Text);
-            this.MeuIni.WriteString(iftpAtu.ToString(), "Porta", txPorta.Text);
-            Close();
         }
 
         private void btNovo_Click(object sender, EventArgs e)
