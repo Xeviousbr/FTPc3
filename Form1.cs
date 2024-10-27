@@ -19,8 +19,8 @@ namespace FTPc
         private float TempoAtual = 2000;
         private string camLocal = "";
         private string PastaBaseFTP = "";
-        private string host = "";                
-        private string ftpAtu;
+        private string host = ""; 
+        private string ftpAtu = "";
         private string UltNome = "";
 
         private void btConfig_Click(object sender, EventArgs e)
@@ -33,19 +33,30 @@ namespace FTPc
             if (numeroFtps == 0)
             {
                 MessageBox.Show("Não foi configurado", "Não foi configurado");
+            } else {
+                this.ftpAtu = this.MeuIni.ReadString("Config", "ftpAtu", "1");
+                Inicializa();
             }
+        }
+
+        private void Credenciais()
+        {
+            string user = MeuIni.ReadString(this.ftpAtu, "user", "");
+            string pass = MeuIni.ReadString(this.ftpAtu, "pass", "");
+            this.camLocal = MeuIni.ReadString(this.ftpAtu, "CamLocal", "");
+            this.PastaBaseFTP = MeuIni.ReadString(this.ftpAtu, "PastaBaseFTP", "");
+            int Porta = this.MeuIni.ReadInt(ftpAtu, "Porta", 21);
+            this.cFPT.Credeciais(this.host, user, pass, Porta);
+            string Nome = this.MeuIni.ReadString(this.ftpAtu, "nome", "");
+            this.Text = "FTPeia " + Nome;
         }
 
         private void Inicializa()
         {
             this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.PassoTimer = 0;            
-            string user = MeuIni.ReadString(this.ftpAtu, "user", "");
-            string pass = MeuIni.ReadString(this.ftpAtu, "pass", "");
-            this.camLocal = MeuIni.ReadString(this.ftpAtu, "CamLocal", "");
-            this.PastaBaseFTP = MeuIni.ReadString(this.ftpAtu, "PastaBaseFTP", "");
-            int Porta = this.MeuIni.ReadInt(ftpAtu, "Porta", 21);
-            this.cFPT = new FTP(this.host, user, pass, Porta);
+            this.cFPT = new FTP();
+            Credenciais();
             this.cFPT.setBarra(ref ProgressBar1);
         }
 

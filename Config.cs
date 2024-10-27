@@ -34,7 +34,6 @@ namespace FTPc
             Close();
         }
 
-
         private void cbFTP_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!carregando)
@@ -97,7 +96,8 @@ namespace FTPc
             btTeste.Enabled = false;            
             FTP cFPT;
             int Porta = Convert.ToInt32(txPorta.Text);
-            cFPT = new FTP(txHost.Text, txUser.Text, txSenha.Text, Porta);
+            cFPT = new FTP();
+            cFPT.Credeciais(txHost.Text, txUser.Text, txSenha.Text, Porta);
             if (cFPT.Testa())
                 MessageBox.Show("Teste realizado com sucesso", "Credenciais válidas");
             else
