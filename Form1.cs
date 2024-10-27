@@ -26,13 +26,12 @@ namespace FTPc
         private void Inicializa()
         {
             this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.PassoTimer = 0;
+            this.PassoTimer = 0;            
             string user = MeuIni.ReadString("Config", "user", "");
             string pass = MeuIni.ReadString("Config", "pass", "");
-            this.cFPT = new FTP(this.host, user, pass);
             this.camLocal = MeuIni.ReadString("Config", "CamLocal", "");
             this.PastaBaseFTP = MeuIni.ReadString("Config", "PastaBaseFTP", "");
-            Console.WriteLine("cFPT.setBarra(ref ProgressBar1)");
+            this.cFPT = new FTP(this.host, user, pass);
             this.cFPT.setBarra(ref ProgressBar1);
         }
 
@@ -42,8 +41,8 @@ namespace FTPc
             this.Top = TamVert - 147;
             UltDt = new DateTime(2001, 1, 1);
             int numeroFtps = this.MeuIni.ReadInt("Config", "ftp_count", 0);
-            int iftpAtu = this.MeuIni.ReadInt("Config", "ftpAtu", 0);
-            string ftpAtu = iftpAtu.ToString();
+            this.iftpAtu = this.MeuIni.ReadInt("Config", "ftpAtu", 0);
+            string ftpAtu = this.iftpAtu.ToString();
             this.host = MeuIni.ReadString(ftpAtu, "host", "");
             if (this.host.Length == 0)
             {
