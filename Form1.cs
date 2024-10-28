@@ -35,6 +35,8 @@ namespace FTPc
                 MessageBox.Show("Não foi configurado", "Não foi configurado");
             } else {
                 this.ftpAtu = this.MeuIni.ReadString("Config", "ftpAtu", "1");
+                string Nome = this.MeuIni.ReadString(this.ftpAtu, "nome", "");
+                this.Text = "FTPeia " + Nome;
                 Inicializa();
             }
         }
@@ -47,8 +49,6 @@ namespace FTPc
             this.PastaBaseFTP = MeuIni.ReadString(this.ftpAtu, "PastaBaseFTP", "");
             int Porta = this.MeuIni.ReadInt(ftpAtu, "Porta", 21);
             this.cFPT.Credeciais(this.host, user, pass, Porta);
-            string Nome = this.MeuIni.ReadString(this.ftpAtu, "nome", "");
-            this.Text = "FTPeia " + Nome;
         }
 
         private void Inicializa()
@@ -73,8 +73,7 @@ namespace FTPc
                 this.host = MeuIni.ReadString("Config", "host", "");
                 if (this.host.Length == 0)
                 {
-                    MessageBox.Show("Não foi configurado", "O programa será fechado");
-                    Environment.Exit(0);
+                    MessageBox.Show("Não foi configurado", "Configure");
                 }
             }
             else
@@ -96,6 +95,9 @@ namespace FTPc
         private void Tela_Load(object sender, EventArgs e)
         {
             MeuIni = new INI();
+            this.ftpAtu = this.MeuIni.ReadString("Config", "ftpAtu", "1");
+            string Nome = this.MeuIni.ReadString(this.ftpAtu, "nome", "");
+            this.Text = "FTPeia " + Nome;
         }
 
         #endregion
