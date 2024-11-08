@@ -150,7 +150,7 @@ namespace FTPc
         #endregion
 
         #region Operações do Usuário
-        private bool Atualiza()
+        private bool Atualiza(bool forcado = false)
         {
             UltAtualizado(this.camLocal);
             this.Text = "Ftpeia : " + ArqEsc.Name;
@@ -158,7 +158,7 @@ namespace FTPc
             Console.WriteLine(ArqEsc.FullName);
             string ese = ArqEsc.FullName;
             DateTime DtGrv = ArqEsc.LastWriteTime;
-            if ((this.UltNome != ese) || (this.UltData != DtGrv))
+            if ((this.UltNome != ese) || (this.UltData != DtGrv) || forcado)
             {
                 this.UltNome = ese;
                 this.UltData = DtGrv;
@@ -197,11 +197,11 @@ namespace FTPc
             }
             else
             {
-                Console.WriteLine("Erro: Arquivo já enviado");
-                Console.WriteLine("ProgressBar1.Visible = false");
                 ProgressBar1.Visible = false;
-                lbErro.Text = "Arquivo já enviado";
-                lbErro.Visible = true;
+                btInicio.Text = "Enviar denovo";
+                btInicio.Visible = true;
+                btConfig.Visible = true;
+                Label1.Text = Label1.Text+ " já enviado"; 
                 timer1.Interval = (int)this.TempoAtual;
                 timer1.Enabled = true;
                 return false;
@@ -261,7 +261,7 @@ namespace FTPc
             btConfig.Visible = false;
             this.Refresh();
             Inicializa();
-            Atualiza();
+            Atualiza(true);
             if (ArqEsc != null)
                 Label1.Text = ArqEsc.FullName;
         }
